@@ -1,0 +1,22 @@
+{
+    "name": "app-outlet-backend",
+    "version": "0.0.1",
+    "description": "An user friendly linux app store",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/app-outlet/app-outlet-backend.git"
+    },
+    "author": "Messias Junior (https://github.com/messiaslima)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/app-outlet/app-outlet-backend/issues"
+    },
+    "homepage": "https://github.com/app-outlet/app-outlet-backend#readme",
+    "dependencies": {
+        "express": "^4.17.1"
+    }
+}
