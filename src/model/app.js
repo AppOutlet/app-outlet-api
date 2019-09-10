@@ -1,10 +1,9 @@
 const mongoose = require('mongoose')
-const Category = require('./category')
 
 const appSchema = mongoose.Schema({
     identifier: String,
     name: String,
-    category: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+    category: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
     logo: String,
     screens: [String],
     description: String,

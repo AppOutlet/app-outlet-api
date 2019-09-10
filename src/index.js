@@ -6,6 +6,8 @@ const config = require('./config')
 
 const app = express()
 
+config(app)
+
 app.use('', router)
 
 app.listen(constants.port, () => {
