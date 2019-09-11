@@ -1,17 +1,25 @@
 const mongoose = require('mongoose')
+const Category = require('./category')
 
 const appSchema = mongoose.Schema({
-    identifier: String,
+    _id: String,
     name: String,
-    category: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
-    logo: String,
-    screens: [String],
-    description: String,
+    category: [Category.schema],
+    icon: String,
+    screenshots: [String],
+    shortDescription: String,
+    fullDescription: String,
     store: String,
     installScript: String,
-    creationDate: Date,
-    lastUpdate: Date,
-    version: String
+    releaseDate: Date,
+    lastUpdateDate: Date,
+    version: String,
+    bugtrackerUrl: String,
+    developer: String,
+    donationUrl: String,
+    flatpakAppId: String,
+    homepage: String,
+    license: String
 })
 
 const App = mongoose.model('App', appSchema);

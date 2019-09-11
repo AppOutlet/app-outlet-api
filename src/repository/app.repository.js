@@ -1,7 +1,7 @@
 const App = require('../model/app')
 const { from } = require('rxjs')
 
-exports.findAll = function () {
+function findAll() {
 
     const promise = new Promise((resolve, reject) => {
         App.find((err, response) => {
@@ -15,3 +15,19 @@ exports.findAll = function () {
 
     return from(promise)
 }
+
+function save(app) {
+    const promise = new Promise((resolve, reject) => {
+        App.findOneAndUpdate({ _id: app._id }, app, { upsert: true }, (err, document) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(document)
+            }
+        })
+    })
+    return from(promise)
+}
+
+exports.findAll = findAll
+exports.save = save
