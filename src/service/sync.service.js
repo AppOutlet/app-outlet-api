@@ -1,7 +1,7 @@
 const logger = require('../util/logger')
 const { of, empty } = require('rxjs')
 const { map, flatMap } = require('rxjs/operators')
-const flatpakSynchronizer = require('../util/synchronizer/flatpak.synchronizer')
+const flatpakSynchronizer = require('../util/synchronizer/flatpak/flatpak.synchronizer')
 const configService = require('../service/config.service')
 const contants = require('../config/constants')
 
