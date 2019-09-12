@@ -4,6 +4,7 @@ const constants = require('./constants')
 console.log('Connecting to database')
 
 mongoose.connect(constants.databaseUrl, { useNewUrlParser: true })
+mongoose.set('useFindAndModify', false);
 
 const db = mongoose.connection;
 

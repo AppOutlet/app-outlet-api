@@ -1,7 +1,15 @@
-const mongoose = require('mongoose')
+const Config = require('../model/config')
+const { from } = require('rxjs')
 
-function getLastSync() {
-
+function getConfig() {
+    const promise = Config.findOne().exec()
+    return from(promise)
 }
 
-exports.getLastSync = getLastSync
+function save(config) {
+    const promise = Config.findOneAndUpdate({ _id: config._id }, config, { upsert: true }).exec()
+    return from(promise)
+}
+
+exports.getConfig = getConfig
+exports.save = save
