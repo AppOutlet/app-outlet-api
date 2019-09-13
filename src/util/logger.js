@@ -22,3 +22,9 @@ exports.i = function (message) {
         console.log(message)
     }
 }
+
+exports.v = function (message) {
+    if (shouldLog()) {
+        console.log(message)
+    }
+}
