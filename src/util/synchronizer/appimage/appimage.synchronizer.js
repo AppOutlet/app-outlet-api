@@ -3,6 +3,7 @@ const appRepository = require('../../../repository/app.repository')
 const categoryRepository = require('../../../repository/category.repository')
 const { flatMap, map, bufferCount, filter } = require('rxjs/operators')
 const { from, of } = require('rxjs')
+const logger = require('../../logger')
 
 function synchronizeAppImage() {
     return appImageRepository.getApps()
@@ -72,9 +73,10 @@ function getDowloadLink(appImageApp) {
 
 function getHomepage(appImageApp) {
     try {
-        const githubLink = appImageApp.links.find(link => link.name == 'GitHub')
-        return `https://github.com/${githubLink}`
+        const githubLink = appImageApp.links.find(link => link.type == 'GitHub')
+        return `https://github.com/${githubLink.url}`
     } catch (ex) {
+        logger.e(ex)
         return ''
     }
 }
