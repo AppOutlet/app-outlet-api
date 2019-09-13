@@ -3,6 +3,7 @@ const { of, empty } = require('rxjs')
 const { map, flatMap } = require('rxjs/operators')
 const flatpakSynchronizer = require('../util/synchronizer/flatpak/flatpak.synchronizer')
 const snapSynchronizer = require('../util/synchronizer/snap/snap.synchronizer')
+const appImageSynchronizer = require('../util/synchronizer/appimage/appimage.synchronizer')
 const configService = require('../service/config.service')
 const contants = require('../config/constants')
 
@@ -16,7 +17,8 @@ function synchronize() {
         .pipe(
             flatMap(verifyShouldSynchronize),
             //flatMap(() => flatpakSynchronizer()),
-            flatMap(() => snapSynchronizer()),
+            //flatMap(() => snapSynchronizer()),
+            flatMap(() => appImageSynchronizer()),
             flatMap(() => configService.notifySyncCompleted())
         ).subscribe(
             () => logger.i('Apps synchronized sucessfully'),
