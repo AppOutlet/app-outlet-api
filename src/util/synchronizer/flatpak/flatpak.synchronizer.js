@@ -6,7 +6,6 @@ const { map, flatMap, bufferCount } = require('rxjs/operators')
 const { from } = require('rxjs')
 
 function synchronizeFlatpak() {
-    logger.v('Initializing flatpak sync')
     return flatpakRepository.getApps()
         .pipe(
             flatMap(from),
