@@ -2,6 +2,7 @@ const logger = require('../util/logger')
 const { of, empty } = require('rxjs')
 const { map, flatMap } = require('rxjs/operators')
 const flatpakSynchronizer = require('../util/synchronizer/flatpak/flatpak.synchronizer')
+const snapSynchronizer = require('../util/synchronizer/snap/snap.synchronizer')
 const configService = require('../service/config.service')
 const contants = require('../config/constants')
 
@@ -14,7 +15,8 @@ function synchronize() {
     shouldSynchronize()
         .pipe(
             flatMap(verifyShouldSynchronize),
-            flatMap(() => flatpakSynchronizer()),
+            //flatMap(() => flatpakSynchronizer()),
+            flatMap(() => snapSynchronizer()),
             flatMap(() => configService.notifySyncCompleted())
         ).subscribe(
             () => logger.i('Apps synchronized sucessfully'),

@@ -19,7 +19,8 @@ const appSchema = mongoose.Schema({
     donationUrl: String,
     flatpakAppId: String,
     homepage: String,
-    license: String
+    license: String,
+    channel: String
 })
 
 const App = mongoose.model('App', appSchema);
