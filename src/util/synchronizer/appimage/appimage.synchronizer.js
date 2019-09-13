@@ -1,36 +1,109 @@
 const appImageRepository = require('../../../repository/appimage.repository')
-const { flatMap, map } = require('rxjs/operators')
+const appRepository = require('../../../repository/app.repository')
+const categoryRepository = require('../../../repository/category.repository')
+const { flatMap, map, bufferCount, filter } = require('rxjs/operators')
 const { from, of } = require('rxjs')
 
 function synchronizeAppImage() {
     return appImageRepository.getApps()
         .pipe(
             flatMap(from),
-            flatMap(convertToOutletApp)
+            filter(app => app.authors != undefined),
+            map(convertToOutletApp),
+            flatMap(saveCategories),
+            flatMap(appRepository.save),
+            bufferCount(Number.MAX_VALUE)
+        )
+}
+
+function saveCategories(outletApp) {
+    return from(outletApp.categories)
+        .pipe(
+            flatMap(categoryRepository.save),
+            bufferCount(outletApp.categories),
+            map(() => outletApp)
         )
 }
 
 function convertToOutletApp(appImageApp) {
     return {
-        _id: String,
-        name: String,
-        categories: [String],
-        icon: String,
-        screenshots: [String],
-        shortDescription: String,
-        fullDescription: String,
-        store: String,
-        installScript: String,
-        releaseDate: Date,
-        lastUpdateDate: Date,
-        version: String,
-        bugtrackerUrl: String,
-        developer: String,
-        donationUrl: String,
-        flatpakAppId: String,
-        homepage: String,
-        license: String,
-        channel: String
+        _id: generateId(appImageApp),
+        name: appImageApp.name,
+        categories: appImageApp.categories,
+        icon: getIcon(appImageApp),
+        screenshots: getScreenshots(appImageApp),
+        shortDescription: appImageApp.description,
+        fullDescription: appImageApp.description,
+        store: 'appimage',
+        installScript: '',
+        bugtrackerUrl: getBugtrackerUrl(appImageApp),
+        developer: getDeveloper(appImageApp),
+        homepage: getHomepage(appImageApp),
+        license: appImageApp.license
+    }
+}
+
+function getDeveloper(appImageApp) {
+    try {
+        const author = appImageApp.authors[0].name
+        return author
+    } catch (error) {
+        return ''
+    }
+}
+
+function getBugtrackerUrl(appImageApp) {
+    const homepage = getHomepage(appImageApp)
+    if (homepage) {
+        return `${homepage}/issues`
+    } else {
+        return ''
+    }
+}
+
+function getDowloadLink(appImageApp) {
+    try {
+        const githubLink = appImageApp.links.find(link => link.name == 'Download')
+        return githubLink.url
+    } catch (ex) {
+        return ''
+    }
+}
+
+function getHomepage(appImageApp) {
+    try {
+        const githubLink = appImageApp.links.find(link => link.name == 'GitHub')
+        return `https://github.com/${githubLink}`
+    } catch (ex) {
+        return ''
+    }
+}
+
+function generateId(appImageApp) {
+    const author = appImageApp.authors[0]
+    return `${author.name}.${appImageApp.name}`
+}
+
+function getScreenshots(appImageApp) {
+    const screenshots = []
+    if (appImageApp.screenshots) {
+        appImageApp.screenshots.forEach(element => {
+            screenshots.push(parseScreenshotUrl(element))
+        });
+    }
+    return screenshots
+}
+
+function parseScreenshotUrl(screenshotRef) {
+    return `https://appimage.github.io/database/${screenshotRef}`
+}
+
+function getIcon(appImageApp) {
+    try {
+        const icon = appImageApp.icons[0]
+        return `https://gitcdn.xyz/repo/AppImage/appimage.github.io/master/database/${icon}`
+    } catch (ex) {
+        return ""
     }
 }
 

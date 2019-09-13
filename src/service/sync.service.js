@@ -16,15 +16,27 @@ function synchronize() {
     shouldSynchronize()
         .pipe(
             flatMap(verifyShouldSynchronize),
-            //flatMap(() => flatpakSynchronizer()),
-            //flatMap(() => snapSynchronizer()),
+
+            map(data => log(data, 'Starting flatpak sync')),
+            flatMap(() => flatpakSynchronizer()),
+
+            map(data => log(data, 'Starting Snap sync')),
+            flatMap(() => snapSynchronizer()),
+
+            map(data => log(data, 'Starting AppImage sync')),
             flatMap(() => appImageSynchronizer()),
+
             flatMap(() => configService.notifySyncCompleted())
         ).subscribe(
             () => logger.i('Apps synchronized sucessfully'),
             err => logger.e(err),
             () => logger.i('Synchronization completed')
         )
+}
+
+function log(data, message) {
+    logger.i(message)
+    return data
 }
 
 function verifyShouldSynchronize(shouldSynchronize) {
