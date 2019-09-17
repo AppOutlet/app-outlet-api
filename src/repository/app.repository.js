@@ -1,5 +1,6 @@
 const App = require('../model/app')
 const { from } = require('rxjs')
+const constants = require('../config/constants')
 
 function findAll() {
 
@@ -10,7 +11,21 @@ function findAll() {
             } else {
                 resolve(response)
             }
-        })
+        }).limit(constants.searchLimit)
+    })
+
+    return from(promise)
+}
+
+function find(query) {
+    const promise = new Promise((resolve, reject) => {
+        App.find(query, (err, response) => {
+            if (err) {
+                reject(reject)
+            } else {
+                resolve(response)
+            }
+        }).limit(constants.searchLimit)
     })
 
     return from(promise)
@@ -30,4 +45,5 @@ function save(app) {
 }
 
 exports.findAll = findAll
+exports.find = find
 exports.save = save
