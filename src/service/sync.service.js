@@ -5,7 +5,7 @@ const flatpakSynchronizer = require('../util/synchronizer/flatpak/flatpak.synchr
 const snapSynchronizer = require('../util/synchronizer/snap/snap.synchronizer')
 const appImageSynchronizer = require('../util/synchronizer/appimage/appimage.synchronizer')
 const configService = require('../service/config.service')
-const contants = require('../config/constants')
+const constants = require('../config/constants')
 
 function synchronize() {
 
@@ -48,12 +48,17 @@ function verifyShouldSynchronize(shouldSynchronize) {
 }
 
 function shouldSynchronize() {
+
+    if (constants.allowSync == 'false') {
+        return of(false)
+    }
+
     return configService.getConfig().pipe(
         map((config) => {
             if (config) {
                 const now = new Date()
                 const interval = now.getTime() - config.lastSync.getTime()
-                return interval > contants.synchronizationInterval
+                return interval > constants.synchronizationInterval
             } else {
                 return true
             }

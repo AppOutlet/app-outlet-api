@@ -5,7 +5,8 @@
     "main": "src/index.js",
     "scripts": {
         "test": "npx jest",
-        "start": "node src/"
+        "start": "node src/",
+        "serve": "npx nodemon src/"
     },
     "repository": {
         "type": "git",
