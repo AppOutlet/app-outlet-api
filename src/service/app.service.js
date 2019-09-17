@@ -11,7 +11,7 @@ function find(query) {
     } else if (query.category) {
         return findByCategory(query.category)
     } else {
-        return empty()
+        return find(query)
     }
 }
 
