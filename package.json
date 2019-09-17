@@ -4,7 +4,8 @@
     "description": "An user friendly linux app store",
     "main": "index.js",
     "scripts": {
-        "test": "npx jest"
+        "test": "npx jest",
+        "start": "node src"
     },
     "repository": {
         "type": "git",
