@@ -2,7 +2,7 @@
     "name": "app-outlet-backend",
     "version": "0.0.1",
     "description": "An user friendly linux app store",
-    "main": "index.js",
+    "main": "src/index.js",
     "scripts": {
         "test": "npx jest",
         "start": "node src/"
