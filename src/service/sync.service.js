@@ -48,6 +48,11 @@ function verifyShouldSynchronize(shouldSynchronize) {
 }
 
 function shouldSynchronize() {
+
+    if (!contants.allowSync) {
+        return of(false)
+    }
+
     return configService.getConfig().pipe(
         map((config) => {
             if (config) {
