@@ -25,7 +25,12 @@ function findByName(appName) {
 }
 
 function findByCategory(category) {
-    return empty()
+    const query = {
+        categories: {
+            $all: [category]
+        }
+    }
+    return appRepository.find(query)
 }
 
 exports.findAll = findAll
