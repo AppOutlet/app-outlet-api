@@ -22,7 +22,7 @@ router.get('/search', (request, response) => {
     })
 })
 
-router.get('/search', (request, response) => {
+router.get('/recent', (request, response) => {
     appService.findRecent().subscribe(apps => {
         response.send(apps)
     }, error => {

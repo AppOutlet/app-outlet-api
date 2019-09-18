@@ -7,6 +7,8 @@ const appImageSynchronizer = require('../util/synchronizer/appimage/appimage.syn
 const configService = require('../service/config.service')
 const constants = require('../config/constants')
 
+let syncInProgress = false
+
 function synchronize() {
 
     if (!shouldSynchronize()) return
@@ -30,7 +32,10 @@ function synchronize() {
         ).subscribe(
             () => logger.i('Apps synchronized sucessfully'),
             err => logger.e(err),
-            () => logger.i('Synchronization completed')
+            () => {
+                syncInProgress = false
+                logger.i('Synchronization completed')
+            }
         )
 }
 
@@ -41,6 +46,7 @@ function log(data, message) {
 
 function verifyShouldSynchronize(shouldSynchronize) {
     if (shouldSynchronize) {
+        syncInProgress = true
         return of(shouldSynchronize)
     } else {
         return empty()
@@ -48,6 +54,10 @@ function verifyShouldSynchronize(shouldSynchronize) {
 }
 
 function shouldSynchronize() {
+
+    if (syncInProgress) {
+        return of(false)
+    }
 
     if (constants.allowSync == 'false') {
         return of(false)

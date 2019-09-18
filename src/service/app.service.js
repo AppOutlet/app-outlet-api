@@ -16,7 +16,7 @@ function find(query) {
 }
 
 function findRecent() {
-    return appRepository.find()
+    return appRepository.findRecent()
 }
 
 exports.findAll = findAll
