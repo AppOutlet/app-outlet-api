@@ -22,4 +22,13 @@ router.get('/search', (request, response) => {
     })
 })
 
+router.get('/search', (request, response) => {
+    appService.findRecent().subscribe(apps => {
+        response.send(apps)
+    }, error => {
+        response.status(HttpStatus.BAD_REQUEST)
+        response.send(error)
+    })
+})
+
 module.exports = router

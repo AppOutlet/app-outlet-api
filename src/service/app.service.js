@@ -7,31 +7,18 @@ function findAll() {
 
 function find(query) {
     if (query.name) {
-        return findByName(query.name)
+        return appRepository.findByName(query.name)
     } else if (query.category) {
-        return findByCategory(query.category)
+        return appRepository.findByCategory(query.category)
     } else {
-        return find(query)
+        return appRepository.find(query)
     }
 }
 
-function findByName(appName) {
-    const query = {
-        name: {
-            $regex: new RegExp(appName, 'i')
-        }
-    }
-    return appRepository.find(query)
-}
-
-function findByCategory(category) {
-    const query = {
-        categories: {
-            $all: [category]
-        }
-    }
-    return appRepository.find(query)
+function findRecent() {
+    return appRepository.find()
 }
 
 exports.findAll = findAll
 exports.find = find
+exports.findRecent = findRecent
