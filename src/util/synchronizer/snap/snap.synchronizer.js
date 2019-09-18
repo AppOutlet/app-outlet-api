@@ -23,6 +23,7 @@ function convertToOutletApp(snapApp) {
         shortDescription: snapApp.summary,
         fullDescription: snapApp.description,
         store: 'snapstore',
+        type: 'Snap',
         installScript: '',
         releaseDate: new Date(snapApp.date_published),
         lastUpdateDate: new Date(snapApp.last_updated),
