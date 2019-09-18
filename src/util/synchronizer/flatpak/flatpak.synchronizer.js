@@ -26,16 +26,23 @@ function saveCategories(outletApp) {
         )
 }
 
+function generateIconUrl(iconUri) {
+    if (iconUri) {
+        return `https://flathub.org${iconUri}`
+    }
+}
+
 function convertToOutletApp(flatpakApp) {
     return {
         _id: flatpakApp.flatpakAppId,
         name: flatpakApp.name,
         categories: convertToOutletCategory(flatpakApp.categories),
-        icon: flatpakApp.iconDesktopUrl,
+        icon: generateIconUrl(flatpakApp.iconDesktopUrl),
         screenshots: convertToOutletScreenshots(flatpakApp.screenshots),
         shortDescription: flatpakApp.summary,
         fullDescription: flatpakApp.description,
         store: 'flathub',
+        type: 'Flatpak',
         installScript: '',
         releaseDate: new Date(flatpakApp.inStoreSinceDate),
         lastUpdateDate: new Date(flatpakApp.currentReleaseDate),
