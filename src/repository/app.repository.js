@@ -44,6 +44,37 @@ function save(app) {
     return from(promise)
 }
 
+function findByName(appName) {
+    const query = {
+        name: {
+            $regex: new RegExp(appName, 'i')
+        }
+    }
+    return find(query)
+}
+
+function findByCategory(category) {
+    const query = {
+        categories: {
+            $all: [category]
+        }
+    }
+    return find(query)
+}
+
+function findRecent() {
+
+    const promise = App.find()
+        .sort({ lastUpdateDate: -1 })
+        .limit(constants.sectionLimit)
+        .exec()
+
+    return from(promise)
+}
+
 exports.findAll = findAll
 exports.find = find
 exports.save = save
+exports.findByName = findByName
+exports.findByCategory = findByCategory
+exports.findRecent = findRecent
