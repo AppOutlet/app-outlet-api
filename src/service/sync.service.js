@@ -29,9 +29,15 @@ function synchronize() {
             flatMap(() => appImageSynchronizer()),
 
             flatMap(() => configService.notifySyncCompleted())
+
         ).subscribe(
-            () => logger.i('Apps synchronized sucessfully'),
-            err => logger.e(err),
+            () => {
+                logger.i('Apps synchronized sucessfully')
+            },
+            err => {
+                logger.e('Error on app sync. See verbose mode for more info')
+                logger.v(err)
+            },
             () => {
                 syncInProgress = false
                 logger.i('Synchronization completed')
@@ -47,6 +53,7 @@ function log(data, message) {
 function verifyShouldSynchronize(shouldSynchronize) {
     if (shouldSynchronize) {
         syncInProgress = true
+        logger.v('there')
         return of(shouldSynchronize)
     } else {
         return empty()

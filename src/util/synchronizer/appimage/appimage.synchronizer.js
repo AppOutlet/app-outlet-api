@@ -72,11 +72,10 @@ function getDowloadLink(appImageApp) {
 }
 
 function getHomepage(appImageApp) {
-    try {
-        const githubLink = appImageApp.links.find(link => link.type == 'GitHub')
+    const githubLink = appImageApp.links.find(link => link.type == 'GitHub')
+    if (githubLink) {
         return `https://github.com/${githubLink.url}`
-    } catch (ex) {
-        logger.e(ex)
+    } else {
         return ''
     }
 }
