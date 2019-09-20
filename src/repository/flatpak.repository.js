@@ -1,6 +1,6 @@
 const axios = require('axios')
 const { from } = require('rxjs')
-const { map } = require('rxjs/operators')
+const { map, onErrorResumeNext } = require('rxjs/operators')
 
 const flatpakBaseUrl = "https://flathub.org/api/v1/apps/"
 
@@ -11,7 +11,9 @@ function getApps() {
 
 function getAppDetails(flatpakAppId) {
     const request = axios.get(flatpakBaseUrl + flatpakAppId)
-    return parseAxiosRequest(request)
+    return parseAxiosRequest(request).pipe(
+        onErrorResumeNext()
+    )
 }
 
 function parseAxiosRequest(request) {

@@ -23,7 +23,7 @@ router.get('/search', (request, response) => {
 })
 
 router.get('/recent', (request, response) => {
-    appService.findRecent().subscribe(apps => {
+    appService.findRecentlyUpdated().subscribe(apps => {
         response.send(apps)
     }, error => {
         response.status(HttpStatus.BAD_REQUEST)
@@ -42,6 +42,15 @@ router.post('/view', (request, response) => {
 
 router.get('/popular', (request, response) => {
     appService.findPopular().subscribe(apps => {
+        response.send(apps)
+    }, error => {
+        response.status(HttpStatus.BAD_REQUEST)
+        response.send(error)
+    })
+})
+
+router.get('/new', (request, response) => {
+    appService.findNew().subscribe(apps => {
         response.send(apps)
     }, error => {
         response.status(HttpStatus.BAD_REQUEST)

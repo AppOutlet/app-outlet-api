@@ -41,8 +41,13 @@ function convertToOutletApp(appImageApp) {
         bugtrackerUrl: getBugtrackerUrl(appImageApp),
         developer: getDeveloper(appImageApp),
         homepage: getHomepage(appImageApp),
-        license: appImageApp.license
+        license: appImageApp.license,
+        storeUrl: getStoreUrl(appImageApp)
     }
+}
+
+function getStoreUrl(appImageApp){
+    return `https://appimage.github.io/${appImageApp.name}`
 }
 
 function getDeveloper(appImageApp) {

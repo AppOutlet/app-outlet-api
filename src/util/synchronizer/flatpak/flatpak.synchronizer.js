@@ -52,7 +52,8 @@ function convertToOutletApp(flatpakApp) {
         donationUrl: flatpakApp.donationUrl,
         flatpakAppId: flatpakApp.flatpakAppId,
         homepage: flatpakApp.homepageUrl,
-        license: flatpakApp.projectLicense
+        license: flatpakApp.projectLicense,
+        storeUrl: getStoreUrl(flatpakApp)
     }
 }
 
@@ -70,6 +71,10 @@ function convertToOutletScreenshots(flatpakAppScreenshots) {
         screenshots.push(screenshot.imgDesktopUrl)
     })
     return screenshots
+}
+
+function getStoreUrl(flatpakApp) {
+    return `https://flathub.org/apps/details/${flatpakApp.flatpakAppId}`
 }
 
 module.exports = synchronizeFlatpak

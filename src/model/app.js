@@ -22,7 +22,8 @@ const appSchema = mongoose.Schema({
     license: String,
     channel: String,
     type: String,
-    views: Number
+    views: Number,
+    storeUrl: String
 })
 
 const App = mongoose.model('App', appSchema);
