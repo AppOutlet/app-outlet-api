@@ -53,7 +53,6 @@ function log(data, message) {
 function verifyShouldSynchronize(shouldSynchronize) {
     if (shouldSynchronize) {
         syncInProgress = true
-        logger.v('there')
         return of(shouldSynchronize)
     } else {
         return empty()

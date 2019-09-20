@@ -20,7 +20,9 @@ const appSchema = mongoose.Schema({
     flatpakAppId: String,
     homepage: String,
     license: String,
-    channel: String
+    channel: String,
+    type: String,
+    views: Number
 })
 
 const App = mongoose.model('App', appSchema);
