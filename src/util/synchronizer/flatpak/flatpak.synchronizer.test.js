@@ -78,6 +78,7 @@ test('Convert Flatpak app to Outlet app', () => {
         shortDescription: 'Powerful, intelligent flash cards',
         store: 'flathub',
         type: "Flatpak",
-        version: '2.1.13'
+        version: '2.1.13',
+        storeUrl: "https://flathub.org/apps/details/net.ankiweb.Anki"
     })
 })

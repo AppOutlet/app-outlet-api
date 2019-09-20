@@ -34,8 +34,13 @@ function convertToOutletApp(snapApp) {
         flatpakAppId: '',
         homepage: snapApp.website,
         license: snapApp.license,
-        channel: snapApp.channel
+        channel: snapApp.channel,
+        storeUrl: getStoreUrl(snapApp)
     }
+}
+
+function getStoreUrl(snapApp){
+    return `https://snapcraft.io/${snapApp.package_name}`
 }
 
 module.exports = synchronizeSnap
