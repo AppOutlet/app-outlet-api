@@ -39,7 +39,12 @@ function increaseViewsCount(app) {
     return app
 }
 
+function findPopular() {
+    return appRepository.findPopular()
+}
+
 exports.findAll = findAll
 exports.find = find
 exports.findRecent = findRecent
 exports.registerView = registerView
+exports.findPopular = findPopular

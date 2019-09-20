@@ -40,4 +40,13 @@ router.post('/view', (request, response) => {
     })
 })
 
+router.get('/popular', (request, response) => {
+    appService.findPopular().subscribe(apps => {
+        response.send(apps)
+    }, error => {
+        response.status(HttpStatus.BAD_REQUEST)
+        response.send(error)
+    })
+})
+
 module.exports = router
