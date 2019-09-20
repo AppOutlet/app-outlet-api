@@ -1,5 +1,6 @@
 const appRepository = require('../../repository/app.repository')
-const { map, flatMap } = require('rxjs/operators')
+const { map, flatMap, first } = require('rxjs/operators')
+const { from } = require('rxjs')
 
 function findAll() {
     return appRepository.findAll()
@@ -22,6 +23,8 @@ function findRecent() {
 function registerView({ id }) {
     return appRepository.find({ _id: id })
         .pipe(
+            flatMap(from),
+            first(),
             map(increaseViewsCount),
             flatMap(appRepository.save)
         )
