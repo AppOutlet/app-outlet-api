@@ -62,10 +62,20 @@ function findByCategory(category) {
     return find(query)
 }
 
-function findRecent() {
+function findRecentlyUpdated() {
 
     const promise = App.find()
         .sort({ lastUpdateDate: -1 })
+        .limit(constants.sectionLimit)
+        .exec()
+
+    return from(promise)
+}
+
+function findNew() {
+
+    const promise = App.find()
+        .sort({ releaseDate: -1 })
         .limit(constants.sectionLimit)
         .exec()
 
@@ -87,5 +97,6 @@ exports.find = find
 exports.save = save
 exports.findByName = findByName
 exports.findByCategory = findByCategory
-exports.findRecent = findRecent
+exports.findRecentlyUpdated = findRecentlyUpdated
 exports.findPopular = findPopular
+exports.findNew = findNew
