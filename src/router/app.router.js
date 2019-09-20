@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const appService = require('../service/app.service')
+const appService = require('../service/app/app.service')
 const HttpStatus = require('http-status-codes')
 
 const router = new Router()
@@ -25,6 +25,15 @@ router.get('/search', (request, response) => {
 router.get('/recent', (request, response) => {
     appService.findRecent().subscribe(apps => {
         response.send(apps)
+    }, error => {
+        response.status(HttpStatus.BAD_REQUEST)
+        response.send(error)
+    })
+})
+
+router.post('/view', (request, response) => {
+    appService.registerView(request.body).subscribe(() => {
+        response.send()
     }, error => {
         response.status(HttpStatus.BAD_REQUEST)
         response.send(error)
