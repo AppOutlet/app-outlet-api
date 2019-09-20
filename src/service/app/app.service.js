@@ -16,8 +16,8 @@ function find(query) {
     }
 }
 
-function findRecent() {
-    return appRepository.findRecent()
+function findRecentlyUpdated() {
+    return appRepository.findRecentlyUpdated()
 }
 
 function registerView({ id }) {
@@ -43,8 +43,13 @@ function findPopular() {
     return appRepository.findPopular()
 }
 
+function findNew(){
+    return appRepository.findNew()
+}
+
 exports.findAll = findAll
 exports.find = find
-exports.findRecent = findRecent
+exports.findRecentlyUpdated = findRecentlyUpdated
 exports.registerView = registerView
 exports.findPopular = findPopular
+exports.findNew = findNew
