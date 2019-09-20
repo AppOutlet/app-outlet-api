@@ -81,6 +81,7 @@ test('Convert Snap app to Outlet app', () => {
         ],
         shortDescription: 'An Antminer Management Tool from BTC.com',
         store: 'snapstore',
+        type: "Snap",
         version: '1.2.3.2'
     })
 })

@@ -68,7 +68,7 @@ test('Convert Flatpak app to Outlet app', () => {
         flatpakAppId: 'net.ankiweb.Anki',
         fullDescription: '<p>Anki is a program which makes remembering things easy. Because it\'s a lot more efficient than traditional study methods, you can either greatly decrease your time spent studying, or greatly increase the amount you learn.</p>\n<p>Anyone who needs to remember things in their daily life can benefit from Anki. Since it is content-agnostic and supports images, audio, videos and scientific markup (via LaTeX), the possibilities are endless.</p>\n',
         homepage: 'https://apps.ankiweb.net/',
-        icon: '/repo/appstream/x86_64/icons/128x128/net.ankiweb.Anki.png',
+        icon: 'https://flathub.org/repo/appstream/x86_64/icons/128x128/net.ankiweb.Anki.png',
         installScript: '',
         lastUpdateDate: new Date('2019-05-20T00:00:00.000Z'),
         license: 'AGPL-3.0+',
@@ -77,6 +77,7 @@ test('Convert Flatpak app to Outlet app', () => {
         screenshots: ["url1", "url2", "url3"],
         shortDescription: 'Powerful, intelligent flash cards',
         store: 'flathub',
+        type: "Flatpak",
         version: '2.1.13'
     })
 })

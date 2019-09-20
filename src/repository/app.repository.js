@@ -72,9 +72,20 @@ function findRecent() {
     return from(promise)
 }
 
+function findPopular() {
+
+    const promise = App.find()
+        .sort({ views: -1 })
+        .limit(constants.sectionLimit)
+        .exec()
+
+    return from(promise)
+}
+
 exports.findAll = findAll
 exports.find = find
 exports.save = save
 exports.findByName = findByName
 exports.findByCategory = findByCategory
 exports.findRecent = findRecent
+exports.findPopular = findPopular
