@@ -20,6 +20,7 @@ function synchronizeAppImage() {
 function saveCategories(outletApp) {
     return from(outletApp.categories)
         .pipe(
+            filter(category => category != null),
             flatMap(categoryRepository.save),
             bufferCount(outletApp.categories),
             map(() => outletApp)

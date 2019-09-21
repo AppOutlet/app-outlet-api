@@ -2,7 +2,9 @@ const Category = require('../model/category')
 const { from } = require('rxjs')
 
 function findAll() {
-    return from(Category.find())
+    const promise = Category.find()
+        .sort({ _id: 1 })
+    return from(promise)
 }
 
 function save(category) {
