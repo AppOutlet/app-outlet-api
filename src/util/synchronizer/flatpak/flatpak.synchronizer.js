@@ -2,7 +2,7 @@ const flatpakRepository = require('../../../repository/flatpak.repository')
 const appRepository = require('../../../repository/app.repository')
 const categoryRepository = require('../../../repository/category.repository')
 const logger = require('../../logger')
-const { map, flatMap, bufferCount } = require('rxjs/operators')
+const { map, flatMap, bufferCount, filter } = require('rxjs/operators')
 const { from } = require('rxjs')
 
 function synchronizeFlatpak() {
