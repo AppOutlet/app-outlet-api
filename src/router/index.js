@@ -6,5 +6,8 @@ const router = Router()
 
 router.use('/app', appRouter)
 router.use('/category', categoryRouter)
+router.get('',(request, response)=>{
+    response.redirect('https://app-outlet.github.io')
+})
 
 module.exports = router
