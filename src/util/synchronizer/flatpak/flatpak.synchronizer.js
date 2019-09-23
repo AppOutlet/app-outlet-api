@@ -28,10 +28,17 @@ function saveCategories(outletApp) {
 }
 
 function generateIconUrl(iconUri) {
-    if (iconUri) {
+    if (iconUri && isValidURL(iconUri)) {
+        return iconUri
+    } else {
         return `https://flathub.org${iconUri}`
     }
 }
+
+function isValidURL(url) {
+    return /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/.test(url);
+}
+
 
 function convertToOutletApp(flatpakApp) {
     return {
