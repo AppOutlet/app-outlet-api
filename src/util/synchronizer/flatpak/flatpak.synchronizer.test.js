@@ -82,3 +82,13 @@ test('Convert Flatpak app to Outlet app', () => {
         storeUrl: "https://flathub.org/apps/details/net.ankiweb.Anki"
     })
 })
+
+test('Evaluate Correct Url in Flatpak', () => {
+    const generateIconUrl = flatpakSynchronizer.__get__('generateIconUrl')
+    expect(generateIconUrl(flatpakApp.iconDesktopUrl)).toEqual('https://flathub.org/repo/appstream/x86_64/icons/128x128/net.ankiweb.Anki.png')
+})
+
+test('Evaluate Incorrect Url in Flatpak', () => {
+    const generateIconUrl = flatpakSynchronizer.__get__('generateIconUrl')
+    expect(generateIconUrl('https://flathub.org/repo/appstream/x86_64/icons/128x128/net.ankiweb.Anki.png')).toEqual('https://flathub.org/repo/appstream/x86_64/icons/128x128/net.ankiweb.Anki.png')
+})
