@@ -1,5 +1,32 @@
 # App Outlet
-Backend
+App Outlet Backend is the module that provides the services needed for communication interfaces.
+
+Requires NodeJS and MongoDB
+## Settings
+Basic settings are set in a enviroment variables. You can create the variables it up according to your environment. These are the enviroments variables:
+* `PORT` - default value: 3001
+* `OUTLET_DEV_MODE`  - default value: true
+* `OUTLET_DATABASE_URL` - has no default value. Must be set
+* `OUTLET_SYNC_INTERVAL` - default value: 1000 * 60
+* `OUTLET_SEARCH_LIMIT` - default value: 30
+* `OUTLET_SECTION_LIMIT` - default value: 10
+* `OUTLET_ALLOW_SYNC`- default value: true
+
+## Running the server
+Install the dependencies with `npm`:
+```sh
+$ npm install
+```
+Next, run the server  again with `npm`:
+```sh
+$ npm start
+```
+
+## Tests
+Run tests with `npx`:
+```sh
+$ npx jest
+```
 
 ## License
 MIT License
