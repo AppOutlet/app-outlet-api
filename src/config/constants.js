@@ -5,5 +5,6 @@ module.exports = {
     synchronizationInterval: process.env.OUTLET_SYNC_INTERVAL || 1000 * 60, // Default: 1 minute
     searchLimit: process.env.OUTLET_SEARCH_LIMIT || 30,
     sectionLimit: process.env.OUTLET_SECTION_LIMIT || 10,
-    allowSync: process.env.OUTLET_ALLOW_SYNC || 'true'
+    allowSync: process.env.OUTLET_ALLOW_SYNC || 'true',
+    redisUrl: process.env.REDIS_URL || ''
 }
