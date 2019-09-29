@@ -1,4 +1,5 @@
 require('./database-connection')
+require('./cache-connection')
 const syncInteceptor = require('./interceptor/sync.interceptor')
 const cors = require('cors')
 const bodyParser = require('body-parser')
