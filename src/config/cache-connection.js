@@ -12,3 +12,5 @@ clientRedis.on('connect', () => {
 clientRedis.on('error', err => {
     logger.i(`Server redis with error: ${err}`)
 });
+
+module.exports = clientRedis
