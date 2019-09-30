@@ -11,6 +11,8 @@ Basic settings are set in a enviroment variables. You can create the variables i
 * `OUTLET_SEARCH_LIMIT` - default value: 30
 * `OUTLET_SECTION_LIMIT` - default value: 10
 * `OUTLET_ALLOW_SYNC`- default value: true
+* `OUTLET_REDIS_URL` - connection url from Redis (cache server)
+* `OUTLET_SYNC_TIMER` - delay time to run scripts to run synchronizantion with app repositories
 
 ## Running the server
 Install the dependencies with `npm`:
