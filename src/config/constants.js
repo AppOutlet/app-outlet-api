@@ -6,5 +6,6 @@ module.exports = {
     searchLimit: process.env.OUTLET_SEARCH_LIMIT || 30,
     sectionLimit: process.env.OUTLET_SECTION_LIMIT || 10,
     allowSync: process.env.OUTLET_ALLOW_SYNC || 'true',
-    redisUrl: process.env.REDIS_URL || ''
+    redisUrl: process.env.REDIS_URL || '',
+    cronTimer: process.env.CRON_TIMER || '*/2 * * * *'
 }
