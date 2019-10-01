@@ -43,7 +43,8 @@ function convertToOutletApp(appImageApp) {
         developer: getDeveloper(appImageApp),
         homepage: getHomepage(appImageApp),
         license: appImageApp.license,
-        storeUrl: getStoreUrl(appImageApp)
+        storeUrl: getStoreUrl(appImageApp),
+        downloadLink: getDownloadLink(appImageApp)
     }
 }
 
@@ -69,10 +70,10 @@ function getBugtrackerUrl(appImageApp) {
     }
 }
 
-function getDowloadLink(appImageApp) {
+function getDownloadLink(appImageApp) {
     try {
-        const githubLink = appImageApp.links.find(link => link.name == 'Download')
-        return githubLink.url
+        const downloadLink = appImageApp.links.find(link => link.name == 'Download')
+        return downloadLink.url
     } catch (ex) {
         return ''
     }
