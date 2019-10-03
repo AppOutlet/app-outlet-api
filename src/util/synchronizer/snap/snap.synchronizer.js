@@ -36,7 +36,8 @@ function convertToOutletApp(snapApp) {
         license: snapApp.license,
         channel: snapApp.channel,
         storeUrl: getStoreUrl(snapApp),
-        packageName: snapApp.package_name
+        packageName: snapApp.package_name,
+        confinement: snapApp.confinement
     }
 }
 

@@ -25,7 +25,8 @@ const appSchema = mongoose.Schema({
     views: Number,
     storeUrl: String,
     packageName: String,
-    downloadLink: String
+    downloadLink: String,
+    confinement: String
 })
 
 const App = mongoose.model('App', appSchema);
