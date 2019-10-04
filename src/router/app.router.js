@@ -1,11 +1,14 @@
 const { Router } = require('express')
 const appService = require('../service/app/app.service')
 const HttpStatus = require('http-status-codes')
+const clientRedis = require('../config/cache-connection')
 
 const router = new Router()
 
 router.get('', (request, response) => {
     appService.findAll().subscribe(apps => {
+        const url = request.originalUrl;
+        clientRedis.setex(url, 3600, JSON.stringify(apps))
         response.send(apps)
     }, error => {
         response.status(HttpStatus.BAD_REQUEST)

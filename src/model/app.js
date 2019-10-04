@@ -23,7 +23,10 @@ const appSchema = mongoose.Schema({
     channel: String,
     type: String,
     views: Number,
-    storeUrl: String
+    storeUrl: String,
+    packageName: String,
+    downloadLink: String,
+    confinement: String
 })
 
 const App = mongoose.model('App', appSchema);
