@@ -63,6 +63,7 @@ test('Convert Snap app to Outlet app', () => {
         bugtrackerUrl: '',
         categories: [],
         channel: 'stable',
+        confinement: 'strict',
         developer: 'BTC.com',
         donationUrl: '',
         flatpakAppId: '',
@@ -73,6 +74,7 @@ test('Convert Snap app to Outlet app', () => {
         lastUpdateDate: new Date(snapApp.last_updated),
         license: 'CC-BY-ND-4.0',
         name: 'BTCTools',
+        packageName: 'btctools',
         releaseDate: new Date(snapApp.date_published),
         screenshots: [
             'https://dashboard.snapcraft.io/site_media/appmedia/2019/06/%E6%89%B9%E6%B3%A8_2019-06-03_183758.png',
