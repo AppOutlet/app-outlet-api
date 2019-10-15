@@ -6,9 +6,11 @@ const HttpStatus = require('http-status-codes')
 const router = new Router()
 
 router.get('', (request, response) => {
-    categoryService.findAll().subscribe(apps => {
+    categoryService.findAll()
+        .pipe(
+            map(apps => clientRedis.setex(url, 3600, JSON.stringify(apps)))
+        ).subscribe(apps => {
         const url = request.originalUrl;
-        clientRedis.setex(url, 3600, JSON.stringify(apps))
         response.send(apps)
     }, error => {
         response.status(HttpStatus.BAD_REQUEST)
