@@ -1,7 +1,7 @@
 const appRepository = require('../../repository/app.repository')
 const githubRepository = require('../../repository/github.repository')
 const { map, flatMap, first, filter, defaultIfEmpty } = require('rxjs/operators')
-const { from, of } = require('rxjs')
+const { from } = require('rxjs')
 
 function findAll() {
     return appRepository.findAll()

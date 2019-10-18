@@ -31,7 +31,7 @@ function convertToOutletApp(appImageApp) {
     return {
         _id: generateId(appImageApp),
         name: appImageApp.name,
-        categories: appImageApp.categories,
+        tags: appImageApp.categories,
         icon: getIcon(appImageApp),
         screenshots: getScreenshots(appImageApp),
         shortDescription: appImageApp.description,
