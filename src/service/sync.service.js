@@ -19,11 +19,11 @@ function synchronize() {
         .pipe(
             flatMap(verifyShouldSynchronize),
 
-            map(data => log(data, 'Starting flatpak sync')),
-            flatMap(() => flatpakSynchronizer()),
+            //map(data => log(data, 'Starting flatpak sync')),
+            //flatMap(() => flatpakSynchronizer()),
 
-            map(data => log(data, 'Starting Snap sync')),
-            flatMap(() => snapSynchronizer()),
+            //map(data => log(data, 'Starting Snap sync')),
+            //flatMap(() => snapSynchronizer()),
 
             map(data => log(data, 'Starting AppImage sync')),
             flatMap(() => appImageSynchronizer()),
