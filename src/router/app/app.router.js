@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const appService = require('../service/app/app.service')
+const appService = require('../../service/app/app.service')
 const HttpStatus = require('http-status-codes')
 
 const router = new Router()
