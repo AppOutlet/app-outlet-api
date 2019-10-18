@@ -10,8 +10,8 @@ function findAll() {
 function find(query) {
     if (query.name) {
         return appRepository.findByName(query.name)
-    } else if (query.category) {
-        return appRepository.findByCategory(query.category)
+    } else if (query.tags) {
+        return appRepository.findByTag(query.tags.split(','))
     } else {
         return appRepository.find(query)
     }

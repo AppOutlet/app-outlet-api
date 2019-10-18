@@ -53,10 +53,10 @@ function findByName(appName) {
     return find(query)
 }
 
-function findByCategory(category) {
+function findByTag(tagsArray) {
     const query = {
-        categories: {
-            $all: [category]
+        tags: {
+            $in: tagsArray
         }
     }
     return find(query)
@@ -96,7 +96,7 @@ exports.findAll = findAll
 exports.find = find
 exports.save = save
 exports.findByName = findByName
-exports.findByCategory = findByCategory
+exports.findByTag = findByTag
 exports.findRecentlyUpdated = findRecentlyUpdated
 exports.findPopular = findPopular
 exports.findNew = findNew
