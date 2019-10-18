@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 
 function config(app) {
     app.use(cors())
-
     app.use(bodyParser.json())
 }
 
