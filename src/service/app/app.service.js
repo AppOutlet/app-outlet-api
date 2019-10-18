@@ -12,9 +12,16 @@ function find(query) {
         return appRepository.findByName(query.name)
     } else if (query.tags) {
         return appRepository.findByTag(query.tags.split(','))
+    } else if (query.category) {
+        return findByCategory(query.category)
     } else {
         return appRepository.find(query)
     }
+}
+
+function findByCategory(category) {
+
+    return appRepository.findByTag(query.tags.split(','))
 }
 
 function findRecentlyUpdated() {
