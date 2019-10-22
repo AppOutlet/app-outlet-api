@@ -18,11 +18,11 @@ function synchronizeAppImage() {
 
 
 function saveCategories(outletApp) {
-    return from(outletApp.categories)
+    return from(outletApp.tags)
         .pipe(
             filter(category => category != null),
             flatMap(categoryRepository.save),
-            bufferCount(outletApp.categories),
+            bufferCount(outletApp.tags.length),
             map(() => outletApp)
         )
 }
@@ -31,7 +31,7 @@ function convertToOutletApp(appImageApp) {
     return {
         _id: generateId(appImageApp),
         name: appImageApp.name,
-        categories: appImageApp.categories,
+        tags: appImageApp.categories,
         icon: getIcon(appImageApp),
         screenshots: getScreenshots(appImageApp),
         shortDescription: appImageApp.description,

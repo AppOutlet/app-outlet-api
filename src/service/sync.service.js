@@ -87,4 +87,3 @@ function shouldSynchronize() {
 }
 
 exports.synchronize = synchronize
-

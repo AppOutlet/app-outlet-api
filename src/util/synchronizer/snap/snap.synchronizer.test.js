@@ -61,7 +61,7 @@ test('Convert Snap app to Outlet app', () => {
     expect(convertToOutletApp(snapApp)).toEqual({
         _id: '7LBICJlIRP1UEKCIpJUkqhmerY95mhgt',
         bugtrackerUrl: '',
-        categories: [],
+        tags: [],
         channel: 'stable',
         confinement: 'strict',
         developer: 'BTC.com',

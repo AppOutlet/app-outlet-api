@@ -1,7 +1,8 @@
 const appRepository = require('../../repository/app.repository')
+const categoryService = require('../category.service')
 const githubRepository = require('../../repository/github.repository')
 const { map, flatMap, first, filter, defaultIfEmpty } = require('rxjs/operators')
-const { from, of } = require('rxjs')
+const { from } = require('rxjs')
 
 function findAll() {
     return appRepository.findAll()
@@ -10,11 +11,18 @@ function findAll() {
 function find(query) {
     if (query.name) {
         return appRepository.findByName(query.name)
+    } else if (query.tags) {
+        return appRepository.findByTag(query.tags.split(','))
     } else if (query.category) {
-        return appRepository.findByCategory(query.category)
+        return findByCategory(query.category)
     } else {
         return appRepository.find(query)
     }
+}
+
+function findByCategory(category) {
+    const tags = categoryService.getTagsFromCategory(category)
+    return appRepository.findByTag(tags)
 }
 
 function findRecentlyUpdated() {

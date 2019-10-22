@@ -1,7 +1,6 @@
 const flatpakRepository = require('../../../repository/flatpak.repository')
 const appRepository = require('../../../repository/app.repository')
 const categoryRepository = require('../../../repository/category.repository')
-const logger = require('../../logger')
 const { map, flatMap, bufferCount, filter } = require('rxjs/operators')
 const { from } = require('rxjs')
 
@@ -18,11 +17,11 @@ function synchronizeFlatpak() {
 }
 
 function saveCategories(outletApp) {
-    return from(outletApp.categories)
+    return from(outletApp.tags)
         .pipe(
             filter(category => category != null),
             flatMap(categoryRepository.save),
-            bufferCount(outletApp.categories),
+            bufferCount(outletApp.tags.length),
             map(() => outletApp)
         )
 }
@@ -44,7 +43,7 @@ function convertToOutletApp(flatpakApp) {
     return {
         _id: flatpakApp.flatpakAppId,
         name: flatpakApp.name,
-        categories: convertToOutletCategory(flatpakApp.categories),
+        tags: convertToOutletCategory(flatpakApp.categories),
         icon: generateIconUrl(flatpakApp.iconDesktopUrl),
         screenshots: convertToOutletScreenshots(flatpakApp.screenshots),
         shortDescription: flatpakApp.summary,
