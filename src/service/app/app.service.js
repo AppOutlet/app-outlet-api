@@ -1,4 +1,5 @@
 const appRepository = require('../../repository/app.repository')
+const categoryService = require('../category.service')
 const githubRepository = require('../../repository/github.repository')
 const { map, flatMap, first, filter, defaultIfEmpty } = require('rxjs/operators')
 const { from } = require('rxjs')
@@ -20,8 +21,8 @@ function find(query) {
 }
 
 function findByCategory(category) {
-
-    return appRepository.findByTag(query.tags.split(','))
+    const tags = categoryService.getTagsFromCategory(category)
+    return appRepository.findByTag(tags)
 }
 
 function findRecentlyUpdated() {
