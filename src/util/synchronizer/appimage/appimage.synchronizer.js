@@ -1,27 +1,28 @@
 const appImageRepository = require('../../../repository/appimage.repository')
 const appRepository = require('../../../repository/app.repository')
 const categoryRepository = require('../../../repository/category.repository')
+const tagService = require('../../../service/tag/tag.service')
 const { flatMap, map, bufferCount, filter, first } = require('rxjs/operators')
 const { from } = require('rxjs')
 
-function synchronizeAppImage() {
+module.exports = function synchronizeAppImage() {
     return appImageRepository.getApps()
         .pipe(
             flatMap(from),
             filter(app => app.authors != undefined),
             map(convertToOutletApp),
-            flatMap(saveCategories),
+            flatMap(saveTags),
             flatMap(appRepository.save),
             bufferCount(Number.MAX_VALUE)
         )
 }
 
 
-function saveCategories(outletApp) {
+function saveTags(outletApp) {
     return from(outletApp.tags)
         .pipe(
-            filter(category => category != null),
-            flatMap(categoryRepository.save),
+            filter(tag => tag != null),
+            flatMap(tagService.save),
             bufferCount(outletApp.tags.length),
             map(() => outletApp)
         )
@@ -115,5 +116,3 @@ function getIcon(appImageApp) {
         return ""
     }
 }
-
-module.exports = synchronizeAppImage
