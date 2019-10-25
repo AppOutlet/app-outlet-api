@@ -1,12 +1,12 @@
 const { Router } = require('express')
-const appService = require('../service/app/app.service')
+const appService = require('../../service/app/app.service')
 const HttpStatus = require('http-status-codes')
 
 const router = new Router()
 
-router.get('/:type', (request, response) => {
-    appService.getDownloadUrl(request.params.type).subscribe(url =>{
-        response.redirect(url)
+router.get('/search', (request, response) => {
+    appService.findV2(request.query).subscribe(apps => {
+        response.send(apps)
     }, error => {
         response.status(HttpStatus.BAD_REQUEST)
         response.send(error)

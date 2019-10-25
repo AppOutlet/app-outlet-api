@@ -4,7 +4,7 @@ const Category = require('./category')
 const appSchema = mongoose.Schema({
     _id: String,
     name: String,
-    categories: [String],
+    tags: [String],
     icon: String,
     screenshots: [String],
     shortDescription: String,

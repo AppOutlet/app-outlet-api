@@ -1,9 +1,8 @@
 const appImageRepository = require('../../../repository/appimage.repository')
 const appRepository = require('../../../repository/app.repository')
 const categoryRepository = require('../../../repository/category.repository')
-const { flatMap, map, bufferCount, filter } = require('rxjs/operators')
-const { from, of } = require('rxjs')
-const logger = require('../../logger')
+const { flatMap, map, bufferCount, filter, first } = require('rxjs/operators')
+const { from } = require('rxjs')
 
 function synchronizeAppImage() {
     return appImageRepository.getApps()
@@ -17,12 +16,13 @@ function synchronizeAppImage() {
         )
 }
 
+
 function saveCategories(outletApp) {
-    return from(outletApp.categories)
+    return from(outletApp.tags)
         .pipe(
             filter(category => category != null),
             flatMap(categoryRepository.save),
-            bufferCount(outletApp.categories),
+            bufferCount(outletApp.tags.length),
             map(() => outletApp)
         )
 }
@@ -31,7 +31,7 @@ function convertToOutletApp(appImageApp) {
     return {
         _id: generateId(appImageApp),
         name: appImageApp.name,
-        categories: appImageApp.categories,
+        tags: appImageApp.categories,
         icon: getIcon(appImageApp),
         screenshots: getScreenshots(appImageApp),
         shortDescription: appImageApp.description,
@@ -48,7 +48,7 @@ function convertToOutletApp(appImageApp) {
     }
 }
 
-function getStoreUrl(appImageApp){
+function getStoreUrl(appImageApp) {
     return `https://appimage.github.io/${appImageApp.name}`
 }
 
@@ -72,7 +72,7 @@ function getBugtrackerUrl(appImageApp) {
 
 function getDownloadLink(appImageApp) {
     try {
-        const downloadLink = appImageApp.links.find(link => link.name == 'Download')
+        const downloadLink = appImageApp.links.find(link => link.type == 'GitHub')
         return downloadLink.url
     } catch (ex) {
         return ''

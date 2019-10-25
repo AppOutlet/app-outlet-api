@@ -28,8 +28,7 @@ const flatpakApp = {
     ratingVotes: 0,
     summary: "Powerful, intelligent flash cards",
     translateUrl: "https://apps.ankiweb.net/docs/manual.html#_app_translations",
-    screenshots: [
-        {
+    screenshots: [{
             imgDesktopUrl: "url1",
             imgMobileUrl: "url1Mobile",
             thumbUrl: "url1Thumb"
@@ -62,7 +61,7 @@ test('Convert Flatpak app to Outlet app', () => {
     expect(convertToOutletApp(flatpakApp)).toEqual({
         _id: 'net.ankiweb.Anki',
         bugtrackerUrl: 'https://anki.tenderapp.com/discussions/ankidesktop',
-        categories: ["Audio", "Video", "Development"],
+        tags: ["Audio", "Video", "Development"],
         developer: 'Damien Elmes',
         donationUrl: 'https://apps.ankiweb.net/support/',
         flatpakAppId: 'net.ankiweb.Anki',

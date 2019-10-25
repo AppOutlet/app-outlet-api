@@ -17,7 +17,7 @@ function convertToOutletApp(snapApp) {
     return {
         _id: snapApp.snap_id,
         name: snapApp.title,
-        categories: [],
+        tags: [],
         icon: snapApp.icon_url,
         screenshots: snapApp.screenshot_urls,
         shortDescription: snapApp.summary,
@@ -41,7 +41,7 @@ function convertToOutletApp(snapApp) {
     }
 }
 
-function getStoreUrl(snapApp){
+function getStoreUrl(snapApp) {
     return `https://snapcraft.io/${snapApp.package_name}`
 }
 

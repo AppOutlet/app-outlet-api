@@ -21,5 +21,7 @@ function save(category) {
     return from(promise)
 }
 
+function getTagsByCategory(category) {}
+
 exports.findAll = findAll
 exports.save = save
