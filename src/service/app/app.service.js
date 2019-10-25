@@ -8,13 +8,23 @@ function findAll() {
     return appRepository.findAll()
 }
 
-function find(query) {
+function findV2(query) {
     if (query.name) {
         return appRepository.findByName(query.name)
     } else if (query.tags) {
         return appRepository.findByTag(query.tags.split(','))
     } else if (query.category) {
         return findByCategory(query.category)
+    } else {
+        return appRepository.find(query)
+    }
+}
+
+function find(query) {
+    if (query.name) {
+        return appRepository.findByName(query.name)
+    } else if (query.category) {
+        return appRepository.findByCategory(query.category)
     } else {
         return appRepository.find(query)
     }
@@ -100,6 +110,7 @@ function extractAssetDownloadUrl(asset) {
 }
 
 exports.findAll = findAll
+exports.findV2 = findV2
 exports.find = find
 exports.findRecentlyUpdated = findRecentlyUpdated
 exports.registerView = registerView

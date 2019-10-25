@@ -92,6 +92,16 @@ function findPopular() {
     return from(promise)
 }
 
+function findByCategory(category) {
+    const query = {
+        categories: {
+            $all: [category]
+        }
+    }
+    return find(query)
+}
+
+exports.findByCategory = findByCategory
 exports.findAll = findAll
 exports.find = find
 exports.save = save
