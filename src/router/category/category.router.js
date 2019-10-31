@@ -1,6 +1,7 @@
 const { Router } = require('express')
 const categoryService = require('../../service/category.service')
 const HttpStatus = require('http-status-codes')
+
 const router = new Router()
 
 router.get('', (request, response) => {
