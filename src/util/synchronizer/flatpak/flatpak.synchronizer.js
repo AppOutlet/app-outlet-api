@@ -1,6 +1,7 @@
 const flatpakRepository = require('../../../repository/flatpak.repository')
 const appRepository = require('../../../repository/app.repository')
 const categoryRepository = require('../../../repository/category.repository')
+const tagRepository = require('../../../repository/tag.repository')
 const { map, flatMap, bufferCount, filter } = require('rxjs/operators')
 const { from } = require('rxjs')
 
@@ -10,17 +11,17 @@ function synchronizeFlatpak() {
             flatMap(from),
             flatMap(app => flatpakRepository.getAppDetails(app.flatpakAppId)),
             map(convertToOutletApp),
-            flatMap(saveCategories),
+            flatMap(saveTags),
             flatMap(appRepository.save),
             bufferCount(Number.MAX_VALUE)
         )
 }
 
-function saveCategories(outletApp) {
+function saveTags(outletApp) {
     return from(outletApp.tags)
         .pipe(
-            filter(category => category != null),
-            flatMap(categoryRepository.save),
+            filter(tag => tag != null),
+            flatMap(tagRepository.save),
             bufferCount(outletApp.tags.length),
             map(() => outletApp)
         )
