@@ -2,7 +2,9 @@ package com.appoutlet.api.service
 
 import com.appoutlet.api.model.FlathubCategory
 import com.appoutlet.api.model.FlathubScreenshot
+import com.appoutlet.api.repository.AppOutletApplicationRepository
 import com.appoutlet.api.repository.FlathubRepository
+import com.appoutlet.api.repository.SynchronizationRepository
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -15,7 +17,13 @@ import org.junit.jupiter.api.Test
 internal class FlathubSynchronizerTest {
 
 	private val mockFlathubRepository = mockk<FlathubRepository>()
-	private val flathubSynchronizer = FlathubSynchronizer(mockFlathubRepository)
+	private val mockAppOutletApplicationRepository = mockk<AppOutletApplicationRepository>()
+	private val mockSynchronizationRepository = mockk<SynchronizationRepository>()
+	private val flathubSynchronizer = FlathubSynchronizer(
+		mockFlathubRepository,
+		mockAppOutletApplicationRepository,
+		mockSynchronizationRepository
+	)
 
 	@Test
 	fun `Should synchronize `() {

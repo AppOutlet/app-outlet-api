@@ -1,0 +1,9 @@
+{
+	"properties": [
+		{
+			"name": "appoutlet.synchronization.cron",
+			"type": "java.lang.String",
+			"description": "Cron expression to triger synchronization task."
+		}
+	]
+}
