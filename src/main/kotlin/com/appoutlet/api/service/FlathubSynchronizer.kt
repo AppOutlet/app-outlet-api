@@ -6,29 +6,41 @@ import com.appoutlet.api.model.ApplicationStore
 import com.appoutlet.api.model.FlathubApplicationDetails
 import com.appoutlet.api.model.FlathubCategory
 import com.appoutlet.api.model.FlathubScreenshot
+import com.appoutlet.api.model.Synchronization
+import com.appoutlet.api.repository.AppOutletApplicationRepository
 import com.appoutlet.api.repository.FlathubRepository
+import com.appoutlet.api.repository.SynchronizationRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
+import java.util.Date
 
 @Service
 class FlathubSynchronizer(
-    private val flathubRepository: FlathubRepository
+    private val flathubRepository: FlathubRepository,
+    private val appOutletApplicationRepository: AppOutletApplicationRepository,
+    private val synchronizationRepository: SynchronizationRepository
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(FlathubSynchronizer::class.java)
 
-	init {
-		// TODO: Remove this call
-	    synchronize()
-	}
-
 	override fun synchronize(): Mono<Boolean> {
-		var counter = 0
-		flathubRepository.getApps()
+		return flathubRepository.getApps()
 			.flatMap { flathubRepository.getApplicationDetails(it.flatpakAppId) }
 			.map(this::convertFlathubApplicationToAppOutletApplication)
+			.map { appOutletApplicationRepository.save(it) }
+			.buffer()
+			.toMono()
+			.flatMap { createSynchronizationEntry() }
+	}
 
-		return Mono.just(true)
+	fun createSynchronizationEntry() = Mono.create<Boolean> {
+		val sync = Synchronization(
+			date = Date(),
+			store = ApplicationStore.FLATHUB
+		)
+		synchronizationRepository.save(sync)
+		it.success(true)
 	}
 
 	fun convertFlathubApplicationToAppOutletApplication(

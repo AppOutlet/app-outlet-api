@@ -1,9 +1,13 @@
 package com.appoutlet.api.model
 
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 import java.util.Date
 
+@Document
 data class AppOutletApplication(
-    val id: String,
+    @Id
+	val id: String,
     val name: String,
     val summary: String,
     val description: String,
