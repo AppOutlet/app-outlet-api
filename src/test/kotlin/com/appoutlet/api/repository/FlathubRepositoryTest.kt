@@ -1,5 +1,5 @@
 package com.appoutlet.api.repository
 
-internal class FlathubRepositoryTest {
+class FlathubRepositoryTest {
 	// TODO: Create tests for Flathub repository using MockWebServer
 }

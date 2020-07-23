@@ -6,7 +6,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class SynchronizationService(
-    private val flathubSynchronizer: FlathubSynchronizer
+	private val flathubSynchronizer: FlathubSynchronizer,
+	private val appImageHubSynchronizer: AppImageHubSynchronizer
 ) {
 	private val logger = LoggerFactory.getLogger(SynchronizationService::class.java)
 
@@ -15,5 +16,9 @@ class SynchronizationService(
 		flathubSynchronizer.synchronize()
 			.doOnError { logger.info("Error on Flathub synchronization") }
 			.subscribe { logger.info("Flathub synchronized successfully") }
+
+		appImageHubSynchronizer.synchronize()
+			.doOnError { logger.error("Error on AppImageHub synchronization", it) }
+			.subscribe { logger.info("AppImageHub synchronized successfully") }
 	}
 }
