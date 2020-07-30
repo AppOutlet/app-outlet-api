@@ -1,17 +1,29 @@
 package com.appoutlet.api.repository
 
+import com.appoutlet.api.model.AppImageHubApplication
 import com.appoutlet.api.model.AppImageHubFeed
 import org.springframework.stereotype.Repository
+import org.springframework.web.reactive.function.client.ExchangeStrategies
 import org.springframework.web.reactive.function.client.WebClient
-import reactor.core.publisher.Mono
+import reactor.core.publisher.Flux
 
 @Repository
 class AppImageHubRepository {
-	fun getApps(): Mono<AppImageHubFeed>{
-		return WebClient.create(APP_IMAGE_HUB_URL)
+	fun getApps(): Flux<AppImageHubApplication> {
+		// TODO: create a provider to inject this WebClient
+
+		val exchangeStrategies = ExchangeStrategies.builder()
+			.codecs { configurer -> configurer.defaultCodecs().maxInMemorySize(1_000_000) }
+			.build()
+
+		return WebClient.builder()
+			.exchangeStrategies(exchangeStrategies)
+			.baseUrl(APP_IMAGE_HUB_URL)
+			.build()
 			.get()
 			.retrieve()
-			.bodyToMono(AppImageHubFeed::class.java)
+			.bodyToFlux(AppImageHubFeed::class.java)
+			.flatMap { Flux.fromIterable(it.items) }
 	}
 
 	companion object {
