@@ -27,8 +27,8 @@ class FlathubSynchronizer(
 	private val logger = LoggerFactory.getLogger(FlathubSynchronizer::class.java)
 
 	init {
-		if (!flathubSyncEnabled){
-			logger.warn("Synchronization is not enabled to Flathub")
+		if (!flathubSyncEnabled) {
+			logger.warn("Synchronization disabled for Flathub")
 		}
 	}
 

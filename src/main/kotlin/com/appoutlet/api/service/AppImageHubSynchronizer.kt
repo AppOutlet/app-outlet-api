@@ -6,6 +6,8 @@ import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
 import com.appoutlet.api.repository.AppImageHubRepository
 import com.appoutlet.api.repository.AppOutletApplicationRepository
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toFlux
@@ -15,16 +17,31 @@ import java.util.Date
 @Service
 class AppImageHubSynchronizer(
     private val appImageHubRepository: AppImageHubRepository,
-    private val appOutletApplicationRepository: AppOutletApplicationRepository
+    private val appOutletApplicationRepository: AppOutletApplicationRepository,
+    @Value("#{environment['appoutlet.synchronization.app-image-hub.enable']}") private val syncEnabled: Boolean
 ) : Synchronizer {
-	override fun synchronize(): Mono<Boolean> {
-		return appImageHubRepository.getApps().toFlux()
-			.map(this::convertAppImageApplicationToAppOutletApplication)
-			.map(this::saveApplication)
-			.buffer()
-			.toMono()
-			.map { true }
+	private val logger = LoggerFactory.getLogger(AppImageHubSynchronizer::class.java)
+
+	init {
+		if (!syncEnabled) {
+			logger.warn("Synchronization disabled for AppImageHub")
+		}
 	}
+
+	override fun synchronize(): Mono<Boolean> {
+		return if (syncEnabled) {
+			startSynchronization()
+		} else {
+			Mono.just(false)
+		}
+	}
+
+	private fun startSynchronization() = appImageHubRepository.getApps().toFlux()
+		.map(this::convertAppImageApplicationToAppOutletApplication)
+		.map(this::saveApplication)
+		.buffer()
+		.toMono()
+		.map { true }
 
 	private fun saveApplication(application: AppOutletApplication): AppOutletApplication {
 		return appOutletApplicationRepository.save(application)

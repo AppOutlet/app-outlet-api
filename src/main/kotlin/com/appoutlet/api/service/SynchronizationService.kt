@@ -15,7 +15,7 @@ class SynchronizationService(
 	private val logger = LoggerFactory.getLogger(SynchronizationService::class.java)
 
 	init {
-	    if (!synchronizationEnabled) {
+		if (!synchronizationEnabled) {
 			logger.warn("Synchronization is not enabled for this instance")
 		}
 	}
@@ -28,18 +28,16 @@ class SynchronizationService(
 	}
 
 	private fun startSynchronization() {
-		logger.info("Starting synchronization")
-
 		flathubSynchronizer.synchronize()
-			.doOnError { logger.info("Error on Flathub synchronization") }
-			.subscribe { logger.info("Flathub synchronized successfully") }
+			.doOnError { logger.info("Error on Flathub synchronization", it) }
+			.subscribe { if (it) logger.info("Flathub synchronized successfully") }
 
 		appImageHubSynchronizer.synchronize()
 			.doOnError { logger.error("Error on AppImageHub synchronization", it) }
-			.subscribe { logger.info("AppImageHub synchronized successfully") }
+			.subscribe { if (it) logger.info("AppImageHub synchronized successfully") }
 
 		snapStoreSynchronizer.synchronize()
 			.doOnError { logger.error("Error on SnapStore synchronization", it) }
-			.subscribe { logger.info("SnapStore synchronized successfully") }
+			.subscribe { if (it) logger.info("SnapStore synchronized successfully") }
 	}
 }
