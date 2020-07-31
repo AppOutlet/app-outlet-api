@@ -6,6 +6,8 @@ import com.appoutlet.api.model.ApplicationStore
 import com.appoutlet.api.model.snapstore.SnapStoreApplication
 import com.appoutlet.api.repository.AppOutletApplicationRepository
 import com.appoutlet.api.repository.SnapStoreRepository
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
@@ -13,16 +15,31 @@ import reactor.kotlin.core.publisher.toMono
 @Service
 class SnapStoreSynchronizer(
     private val snapStoreRepository: SnapStoreRepository,
-    private val appOutletApplicationRepository: AppOutletApplicationRepository
+    private val appOutletApplicationRepository: AppOutletApplicationRepository,
+    @Value("#{environment['appoutlet.synchronization.snap-store.enable']}") private val syncEnabled: Boolean
 ) : Synchronizer {
-	override fun synchronize(): Mono<Boolean> {
-		return snapStoreRepository.getApps()
-			.map(this::convertSnapStoreApplicationToAppOutletApplication)
-			.map(this::saveApplication)
-			.buffer()
-			.map { true }
-			.toMono()
+	private val logger = LoggerFactory.getLogger(SnapStoreSynchronizer::class.java)
+
+	init {
+	    if (!syncEnabled) {
+			logger.warn("Synchronization disabled for snap store")
+		}
 	}
+
+	override fun synchronize(): Mono<Boolean> {
+		return if (syncEnabled) {
+			startSynchronization()
+		} else {
+			Mono.just(false)
+		}
+	}
+
+	private fun startSynchronization() = snapStoreRepository.getApps()
+		.map(this::convertSnapStoreApplicationToAppOutletApplication)
+		.map(this::saveApplication)
+		.buffer()
+		.map { true }
+		.toMono()
 
 	private fun saveApplication(appOutletApplication: AppOutletApplication): AppOutletApplication {
 		return appOutletApplicationRepository.save(appOutletApplication)
