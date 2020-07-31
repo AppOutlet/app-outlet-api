@@ -11,6 +11,7 @@ import com.appoutlet.api.repository.AppOutletApplicationRepository
 import com.appoutlet.api.repository.FlathubRepository
 import com.appoutlet.api.repository.SynchronizationRepository
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
@@ -20,11 +21,26 @@ import java.util.Date
 class FlathubSynchronizer(
     private val flathubRepository: FlathubRepository,
     private val appOutletApplicationRepository: AppOutletApplicationRepository,
-    private val synchronizationRepository: SynchronizationRepository
+    private val synchronizationRepository: SynchronizationRepository,
+    @Value("#{environment['appoutlet.synchronization.flathub.enable']}") private val flathubSyncEnabled: Boolean
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(FlathubSynchronizer::class.java)
 
+	init {
+		if (!flathubSyncEnabled){
+			logger.warn("Synchronization is not enabled to Flathub")
+		}
+	}
+
 	override fun synchronize(): Mono<Boolean> {
+		return if (flathubSyncEnabled) {
+			startSynchronization()
+		} else {
+			Mono.just(false)
+		}
+	}
+
+	private fun startSynchronization(): Mono<Boolean> {
 		return flathubRepository.getApps()
 			.flatMap { flathubRepository.getApplicationDetails(it.flatpakAppId) }
 			.map(this::convertFlathubApplicationToAppOutletApplication)
