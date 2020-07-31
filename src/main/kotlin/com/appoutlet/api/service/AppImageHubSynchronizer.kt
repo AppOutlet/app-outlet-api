@@ -5,26 +5,29 @@ import com.appoutlet.api.model.AppOutletApplication
 import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
 import com.appoutlet.api.repository.AppImageHubRepository
+import com.appoutlet.api.repository.AppOutletApplicationRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toFlux
 import reactor.kotlin.core.publisher.toMono
+import java.util.Date
 
 @Service
 class AppImageHubSynchronizer(
-    private val appImageHubRepository: AppImageHubRepository
+    private val appImageHubRepository: AppImageHubRepository,
+    private val appOutletApplicationRepository: AppOutletApplicationRepository
 ) : Synchronizer {
 	override fun synchronize(): Mono<Boolean> {
 		return appImageHubRepository.getApps().toFlux()
 			.map(this::convertAppImageApplicationToAppOutletApplication)
-			.map(this::addDownloadUrl)
+			.map(this::saveApplication)
 			.buffer()
 			.toMono()
 			.map { true }
 	}
 
-	private fun addDownloadUrl(application: AppOutletApplication): AppOutletApplication {
-		return application
+	private fun saveApplication(application: AppOutletApplication): AppOutletApplication {
+		return appOutletApplicationRepository.save(application)
 	}
 
 	private fun convertAppImageApplicationToAppOutletApplication(
@@ -43,7 +46,7 @@ class AppImageHubSynchronizer(
 			icon = getIcon(appImageHubApplication),
 			downloadUrl = null,
 			version = null,
-			lastReleaseDate = null,
+			lastReleaseDate = Date(),
 			creationDate = null,
 			tags = appImageHubApplication.categories,
 			screenshots = getScreenshots(appImageHubApplication),
