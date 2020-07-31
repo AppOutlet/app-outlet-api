@@ -4,6 +4,26 @@
 			"name": "appoutlet.synchronization.cron",
 			"type": "java.lang.String",
 			"description": "Cron expression to trigger synchronization task."
+		},
+		{
+			"name": "appoutlet.synchronization.enable",
+			"type": "java.lang.Boolean",
+			"description": "Enable or disable the synchronization."
+		},
+		{
+			"name": "appoutlet.synchronization.snap-store.enable",
+			"type": "java.lang.Boolean",
+			"description": "Enable or disable synchronization for snap store."
+		},
+		{
+			"name": "appoutlet.synchronization.app-image-hub.enable",
+			"type": "java.lang.Boolean",
+			"description": "Enable or disable synchronization for AppImageHub."
+		},
+		{
+			"name": "appoutlet.synchronization.flathub.enable",
+			"type": "java.lang.Boolean",
+			"description":  "Enable or disable synchronization for FlatHub."
 		}
 	]
 }

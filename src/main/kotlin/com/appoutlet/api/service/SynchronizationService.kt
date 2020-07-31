@@ -1,6 +1,7 @@
 package com.appoutlet.api.service
 
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
@@ -8,16 +9,26 @@ import org.springframework.stereotype.Service
 class SynchronizationService(
     private val flathubSynchronizer: FlathubSynchronizer,
     private val appImageHubSynchronizer: AppImageHubSynchronizer,
-    private val snapStoreSynchronizer: SnapStoreSynchronizer
+    private val snapStoreSynchronizer: SnapStoreSynchronizer,
+    @Value("#{environment['appoutlet.synchronization.enable']}") private val synchronizationEnabled: Boolean
 ) {
 	private val logger = LoggerFactory.getLogger(SynchronizationService::class.java)
 
 	@Scheduled(cron = "#{environment['appoutlet.synchronization.cron']}")
-	fun startSynchronization() {
-		// TODO: Before start synchronization we have to verify if this feature is enabled. This flag should be on properties file
- 		flathubSynchronizer.synchronize()
- 			.doOnError { logger.info("Error on Flathub synchronization") }
- 			.subscribe { logger.info("Flathub synchronized successfully") }
+	fun synchronize() {
+		if (synchronizationEnabled) {
+			startSynchronization()
+		} else {
+			logger.warn("Synchronization is not enabled for this instance")
+		}
+	}
+
+	private fun startSynchronization() {
+		logger.info("Starting synchronization")
+
+		flathubSynchronizer.synchronize()
+			.doOnError { logger.info("Error on Flathub synchronization") }
+			.subscribe { logger.info("Flathub synchronized successfully") }
 
 		appImageHubSynchronizer.synchronize()
 			.doOnError { logger.error("Error on AppImageHub synchronization", it) }
