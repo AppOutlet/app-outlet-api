@@ -14,9 +14,9 @@ class SynchronizationService(
 	@Scheduled(cron = "#{environment['appoutlet.synchronization.cron']}")
 	fun startSynchronization() {
 		// TODO: Before start synchronization we have to verify if this feature is enabled. This flag should be on properties file
-// 		flathubSynchronizer.synchronize()
-// 			.doOnError { logger.info("Error on Flathub synchronization") }
-// 			.subscribe { logger.info("Flathub synchronized successfully") }
+ 		flathubSynchronizer.synchronize()
+ 			.doOnError { logger.info("Error on Flathub synchronization") }
+ 			.subscribe { logger.info("Flathub synchronized successfully") }
 
 		appImageHubSynchronizer.synchronize()
 			.doOnError { logger.error("Error on AppImageHub synchronization", it) }
