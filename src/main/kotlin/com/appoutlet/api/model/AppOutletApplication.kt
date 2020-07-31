@@ -19,10 +19,13 @@ data class AppOutletApplication(
     val icon: String?,
     val downloadUrl: String?,
     val version: String?,
+	// TODO: replace Date by LocalDateTime
     val lastReleaseDate: Date?,
     val creationDate: Date?,
     val tags: List<String>?,
     val screenshots: List<String>?,
     val store: ApplicationStore,
-    val packageType: ApplicationPackageType
+    val packageType: ApplicationPackageType,
+    val packageName: String? = null,
+    val confinement: String? = null
 )
