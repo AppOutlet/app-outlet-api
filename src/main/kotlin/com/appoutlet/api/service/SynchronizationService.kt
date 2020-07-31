@@ -14,12 +14,16 @@ class SynchronizationService(
 ) {
 	private val logger = LoggerFactory.getLogger(SynchronizationService::class.java)
 
+	init {
+	    if (!synchronizationEnabled) {
+			logger.warn("Synchronization is not enabled for this instance")
+		}
+	}
+
 	@Scheduled(cron = "#{environment['appoutlet.synchronization.cron']}")
 	fun synchronize() {
 		if (synchronizationEnabled) {
 			startSynchronization()
-		} else {
-			logger.warn("Synchronization is not enabled for this instance")
 		}
 	}
 
