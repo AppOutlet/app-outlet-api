@@ -22,7 +22,8 @@ internal class FlathubSynchronizerTest {
 	private val flathubSynchronizer = FlathubSynchronizer(
 		mockFlathubRepository,
 		mockAppOutletApplicationRepository,
-		mockSynchronizationRepository
+		mockSynchronizationRepository,
+		false
 	)
 
 	@Test
