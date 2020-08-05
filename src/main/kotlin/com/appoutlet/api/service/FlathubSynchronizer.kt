@@ -8,7 +8,7 @@ import com.appoutlet.api.model.flathub.FlathubApplicationDetails
 import com.appoutlet.api.model.flathub.FlathubCategory
 import com.appoutlet.api.model.flathub.FlathubScreenshot
 import com.appoutlet.api.repository.AppOutletApplicationRepository
-import com.appoutlet.api.repository.FlathubRepository
+import com.appoutlet.api.repository.flathub.FlathubRepository
 import com.appoutlet.api.repository.SynchronizationRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -19,10 +19,10 @@ import java.util.Date
 
 @Service
 class FlathubSynchronizer(
-    private val flathubRepository: FlathubRepository,
-    private val appOutletApplicationRepository: AppOutletApplicationRepository,
-    private val synchronizationRepository: SynchronizationRepository,
-    @Value("#{environment['appoutlet.synchronization.flathub.enable']}") private val flathubSyncEnabled: Boolean
+        private val flathubRepository: FlathubRepository,
+        private val appOutletApplicationRepository: AppOutletApplicationRepository,
+        private val synchronizationRepository: SynchronizationRepository,
+        @Value("#{environment['appoutlet.synchronization.flathub.enable']}") private val flathubSyncEnabled: Boolean
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(FlathubSynchronizer::class.java)
 

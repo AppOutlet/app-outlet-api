@@ -1,4 +1,4 @@
-package com.appoutlet.api.repository
+package com.appoutlet.api.repository.flathub
 
 import com.appoutlet.api.model.flathub.FlathubApplication
 import com.appoutlet.api.model.flathub.FlathubApplicationDetails
@@ -8,22 +8,21 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Repository
-class FlathubRepository {
+class FlathubRepository(
+	private val flathubWebClient: FlathubWebClient
+) {
 	fun getApps(): Flux<FlathubApplication> {
-		return WebClient.create(FLATHUB_API_URL)
+		return flathubWebClient.webClient
 			.get()
 			.retrieve()
 			.bodyToFlux(FlathubApplication::class.java)
 	}
 
 	fun getApplicationDetails(flatpakId: String): Mono<FlathubApplicationDetails> {
-		return WebClient.create("$FLATHUB_API_URL/$flatpakId")
+		return flathubWebClient.webClient
 			.get()
+			.uri("/$flatpakId")
 			.retrieve()
 			.bodyToMono(FlathubApplicationDetails::class.java)
-	}
-
-	companion object {
-		private const val FLATHUB_API_URL = "https://flathub.org/api/v1/apps"
 	}
 }

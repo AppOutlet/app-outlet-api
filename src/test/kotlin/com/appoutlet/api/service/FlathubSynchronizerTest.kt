@@ -3,7 +3,7 @@ package com.appoutlet.api.service
 import com.appoutlet.api.model.flathub.FlathubCategory
 import com.appoutlet.api.model.flathub.FlathubScreenshot
 import com.appoutlet.api.repository.AppOutletApplicationRepository
-import com.appoutlet.api.repository.FlathubRepository
+import com.appoutlet.api.repository.flathub.FlathubRepository
 import com.appoutlet.api.repository.SynchronizationRepository
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
