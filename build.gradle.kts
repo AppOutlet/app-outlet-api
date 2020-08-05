@@ -32,6 +32,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.1.0-M1")
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+	implementation("org.springdoc:springdoc-openapi-webflux-ui:1.4.3")
+	implementation("org.springdoc:springdoc-openapi-kotlin:1.4.3")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("com.ninja-squad:springmockk:2.0.2")
