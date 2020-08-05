@@ -1,4 +1,4 @@
-package com.appoutlet.api.model
+package com.appoutlet.api.model.flathub
 
 data class FlathubApplication(
     val flatpakAppId: String,

@@ -1,4 +1,4 @@
-package com.appoutlet.api.model
+package com.appoutlet.api.model.flathub
 
 data class FlathubScreenshot(
     val thumbUrl: String,

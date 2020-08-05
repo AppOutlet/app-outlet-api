@@ -1,7 +1,7 @@
 package com.appoutlet.api.repository
 
-import com.appoutlet.api.model.AppImageHubApplication
-import com.appoutlet.api.model.AppImageHubFeed
+import com.appoutlet.api.model.appimagehub.AppImageHubApplication
+import com.appoutlet.api.model.appimagehub.AppImageHubFeed
 import org.springframework.stereotype.Repository
 import org.springframework.web.reactive.function.client.ExchangeStrategies
 import org.springframework.web.reactive.function.client.WebClient
