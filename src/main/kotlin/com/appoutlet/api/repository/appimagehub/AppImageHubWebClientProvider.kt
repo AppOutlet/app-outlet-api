@@ -15,13 +15,9 @@ class AppImageHubWebClientProvider {
 
 		val webClient =  WebClient.builder()
 			.exchangeStrategies(exchangeStrategies)
-			.baseUrl(APP_IMAGE_HUB_URL)
+			.baseUrl(AppImageHubWebClient.APP_IMAGE_HUB_URL)
 			.build()
 
 		return AppImageHubWebClient(webClient)
-	}
-
-	companion object {
-		private const val APP_IMAGE_HUB_URL = "https://appimage.github.io/feed.json"
 	}
 }

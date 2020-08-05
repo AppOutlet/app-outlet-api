@@ -1,15 +1,13 @@
 package com.appoutlet.api.repository.appimagehub
 
+import com.appoutlet.api.util.clientResponseFactory
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.http.HttpStatus
-import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.ExchangeFunction
 import org.springframework.web.reactive.function.client.WebClient
-import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
 
 internal class AppImageHubRepositoryTest {
@@ -130,14 +128,12 @@ internal class AppImageHubRepositoryTest {
 			}
 		""".trimIndent()
 
-		val clientResponse = ClientResponse.create(HttpStatus.OK)
-			.header("content-type", "application/json")
-			.body(mockResponse)
-			.build()
-
-		every { mockExchangeFunction.exchange(any()) }.returns(Mono.just(clientResponse))
+		every { mockExchangeFunction.exchange(any()) }.returns(clientResponseFactory(mockResponse))
 
 		val applications = appImageHubRepository.getApps().buffer().toMono().block()
 		assertEquals(3, applications?.size)
+		assertEquals("AKASHA", applications?.get(0)?.name)
+		assertEquals("ANT_Downloader", applications?.get(1)?.name)
+		assertEquals("APK_Editor_Studio", applications?.get(2)?.name)
 	}
 }
