@@ -1,7 +1,7 @@
 package com.appoutlet.api.repository
 
-import com.appoutlet.api.model.FlathubApplication
-import com.appoutlet.api.model.FlathubApplicationDetails
+import com.appoutlet.api.model.flathub.FlathubApplication
+import com.appoutlet.api.model.flathub.FlathubApplicationDetails
 import org.springframework.stereotype.Repository
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Flux

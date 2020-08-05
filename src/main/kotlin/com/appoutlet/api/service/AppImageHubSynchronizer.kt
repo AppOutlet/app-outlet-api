@@ -1,9 +1,10 @@
 package com.appoutlet.api.service
 
-import com.appoutlet.api.model.AppImageHubApplication
-import com.appoutlet.api.model.AppOutletApplication
 import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
+import com.appoutlet.api.model.appimagehub.AppImageHubApplication
+import com.appoutlet.api.model.appimagehub.AppImageHubLink
+import com.appoutlet.api.model.appoutlet.AppOutletApplication
 import com.appoutlet.api.repository.AppImageHubRepository
 import com.appoutlet.api.repository.AppOutletApplicationRepository
 import org.slf4j.LoggerFactory
@@ -82,7 +83,7 @@ class AppImageHubSynchronizer(
 	}
 
 	private fun getHomepage(appImageHubApplication: AppImageHubApplication): String? {
-		val uri = appImageHubApplication.links?.find { it.type == AppImageHubApplication.LinkType.GITHUB }?.url
+		val uri = appImageHubApplication.appImageHubLinks?.find { it.type == AppImageHubLink.Type.GITHUB }?.url
 		return uri?.let { "https://github.com/$it" }
 	}
 

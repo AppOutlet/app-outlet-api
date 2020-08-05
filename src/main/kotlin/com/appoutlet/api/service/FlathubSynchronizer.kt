@@ -1,12 +1,12 @@
 package com.appoutlet.api.service
 
-import com.appoutlet.api.model.AppOutletApplication
 import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
-import com.appoutlet.api.model.FlathubApplicationDetails
-import com.appoutlet.api.model.FlathubCategory
-import com.appoutlet.api.model.FlathubScreenshot
 import com.appoutlet.api.model.Synchronization
+import com.appoutlet.api.model.appoutlet.AppOutletApplication
+import com.appoutlet.api.model.flathub.FlathubApplicationDetails
+import com.appoutlet.api.model.flathub.FlathubCategory
+import com.appoutlet.api.model.flathub.FlathubScreenshot
 import com.appoutlet.api.repository.AppOutletApplicationRepository
 import com.appoutlet.api.repository.FlathubRepository
 import com.appoutlet.api.repository.SynchronizationRepository

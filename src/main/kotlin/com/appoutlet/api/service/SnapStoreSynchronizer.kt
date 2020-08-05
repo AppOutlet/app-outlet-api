@@ -1,8 +1,8 @@
 package com.appoutlet.api.service
 
-import com.appoutlet.api.model.AppOutletApplication
 import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
+import com.appoutlet.api.model.appoutlet.AppOutletApplication
 import com.appoutlet.api.model.snapstore.SnapStoreApplication
 import com.appoutlet.api.repository.AppOutletApplicationRepository
 import com.appoutlet.api.repository.SnapStoreRepository
