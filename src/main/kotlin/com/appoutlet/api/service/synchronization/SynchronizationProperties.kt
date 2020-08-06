@@ -8,13 +8,18 @@ import org.springframework.boot.context.properties.ConstructorBinding
 class SynchronizationProperties(
     val enabled: Boolean,
     val flathub: FlathubSynchronizationProperties,
-	val appImageHub: AppImageHubSynchronizationProperties
+	val appImageHub: AppImageHubSynchronizationProperties,
+	val snapStore: SnapStoreSynchronizationProperties
 ) {
 	class FlathubSynchronizationProperties(
 	    val enabled: Boolean
 	)
 
 	class AppImageHubSynchronizationProperties(
+		val enabled: Boolean
+	)
+
+	class SnapStoreSynchronizationProperties(
 		val enabled: Boolean
 	)
 }
