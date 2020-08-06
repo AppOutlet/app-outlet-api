@@ -1,4 +1,4 @@
-package com.appoutlet.api.service
+package com.appoutlet.api.service.synchronization
 
 import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
