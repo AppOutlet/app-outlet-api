@@ -13,7 +13,7 @@ class AppImageHubWebClientProvider {
 			.codecs { configurer -> configurer.defaultCodecs().maxInMemorySize(1_000_000) }
 			.build()
 
-		val webClient =  WebClient.builder()
+		val webClient = WebClient.builder()
 			.exchangeStrategies(exchangeStrategies)
 			.baseUrl(AppImageHubWebClient.APP_IMAGE_HUB_URL)
 			.build()

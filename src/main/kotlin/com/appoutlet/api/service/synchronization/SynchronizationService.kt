@@ -1,16 +1,15 @@
 package com.appoutlet.api.service.synchronization
 
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
 class SynchronizationService(
-	private val flathubSynchronizer: FlathubSynchronizer,
-	private val appImageHubSynchronizer: AppImageHubSynchronizer,
-	private val snapStoreSynchronizer: SnapStoreSynchronizer,
-	private val synchronizationProperties: SynchronizationProperties
+    private val flathubSynchronizer: FlathubSynchronizer,
+    private val appImageHubSynchronizer: AppImageHubSynchronizer,
+    private val snapStoreSynchronizer: SnapStoreSynchronizer,
+    private val synchronizationProperties: SynchronizationProperties
 ) {
 	private val logger = LoggerFactory.getLogger(SynchronizationService::class.java)
 

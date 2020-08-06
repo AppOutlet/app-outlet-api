@@ -5,8 +5,8 @@ import com.appoutlet.api.model.ApplicationStore
 import com.appoutlet.api.model.appimagehub.AppImageHubApplication
 import com.appoutlet.api.model.appimagehub.AppImageHubLink
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
-import com.appoutlet.api.repository.appimagehub.AppImageHubRepository
 import com.appoutlet.api.repository.AppOutletApplicationRepository
+import com.appoutlet.api.repository.appimagehub.AppImageHubRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -17,9 +17,9 @@ import java.util.Date
 
 @Service
 class AppImageHubSynchronizer(
-        private val appImageHubRepository: AppImageHubRepository,
-        private val appOutletApplicationRepository: AppOutletApplicationRepository,
-        @Value("#{environment['appoutlet.synchronization.app-image-hub.enable']}") private val syncEnabled: Boolean
+    private val appImageHubRepository: AppImageHubRepository,
+    private val appOutletApplicationRepository: AppOutletApplicationRepository,
+    @Value("#{environment['appoutlet.synchronization.app-image-hub.enable']}") private val syncEnabled: Boolean
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(AppImageHubSynchronizer::class.java)
 
