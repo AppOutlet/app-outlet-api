@@ -7,9 +7,14 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConfigurationProperties(prefix = "appoutlet.synchronization")
 class SynchronizationProperties(
     val enabled: Boolean,
-    val flathub: FlathubSynchronizationProperties
+    val flathub: FlathubSynchronizationProperties,
+	val appImageHub: AppImageHubSynchronizationProperties
 ) {
 	class FlathubSynchronizationProperties(
 	    val enabled: Boolean
+	)
+
+	class AppImageHubSynchronizationProperties(
+		val enabled: Boolean
 	)
 }

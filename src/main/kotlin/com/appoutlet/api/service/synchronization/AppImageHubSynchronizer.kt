@@ -8,10 +8,8 @@ import com.appoutlet.api.model.appoutlet.AppOutletApplication
 import com.appoutlet.api.repository.AppOutletApplicationRepository
 import com.appoutlet.api.repository.appimagehub.AppImageHubRepository
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toFlux
 import reactor.kotlin.core.publisher.toMono
 import java.util.Date
 
@@ -19,25 +17,25 @@ import java.util.Date
 class AppImageHubSynchronizer(
     private val appImageHubRepository: AppImageHubRepository,
     private val appOutletApplicationRepository: AppOutletApplicationRepository,
-    @Value("#{environment['appoutlet.synchronization.app-image-hub.enable']}") private val syncEnabled: Boolean
+    private val synchronizationProperties: SynchronizationProperties
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(AppImageHubSynchronizer::class.java)
 
 	init {
-		if (!syncEnabled) {
+		if (!synchronizationProperties.appImageHub.enabled) {
 			logger.warn("Synchronization disabled for AppImageHub")
 		}
 	}
 
 	override fun synchronize(): Mono<Boolean> {
-		return if (syncEnabled) {
+		return if (synchronizationProperties.appImageHub.enabled) {
 			startSynchronization()
 		} else {
 			Mono.just(false)
 		}
 	}
 
-	private fun startSynchronization() = appImageHubRepository.getApps().toFlux()
+	private fun startSynchronization() = appImageHubRepository.getApps()
 		.map(this::convertAppImageApplicationToAppOutletApplication)
 		.map(this::saveApplication)
 		.buffer()
@@ -83,7 +81,7 @@ class AppImageHubSynchronizer(
 	}
 
 	private fun getHomepage(appImageHubApplication: AppImageHubApplication): String? {
-		val uri = appImageHubApplication.appImageHubLinks?.find { it.type == AppImageHubLink.Type.GITHUB }?.url
+		val uri = appImageHubApplication.links?.find { it.type == AppImageHubLink.Type.GITHUB }?.url
 		return uri?.let { "https://github.com/$it" }
 	}
 
