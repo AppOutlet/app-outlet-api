@@ -8,10 +8,9 @@ import com.appoutlet.api.model.flathub.FlathubApplicationDetails
 import com.appoutlet.api.model.flathub.FlathubCategory
 import com.appoutlet.api.model.flathub.FlathubScreenshot
 import com.appoutlet.api.repository.AppOutletApplicationRepository
-import com.appoutlet.api.repository.flathub.FlathubRepository
 import com.appoutlet.api.repository.SynchronizationRepository
+import com.appoutlet.api.repository.flathub.FlathubRepository
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
@@ -19,21 +18,21 @@ import java.util.Date
 
 @Service
 class FlathubSynchronizer(
-        private val flathubRepository: FlathubRepository,
-        private val appOutletApplicationRepository: AppOutletApplicationRepository,
-        private val synchronizationRepository: SynchronizationRepository,
-        @Value("#{environment['appoutlet.synchronization.flathub.enable']}") private val flathubSyncEnabled: Boolean
+    private val flathubRepository: FlathubRepository,
+    private val appOutletApplicationRepository: AppOutletApplicationRepository,
+    private val synchronizationRepository: SynchronizationRepository,
+    private val synchronizationProperties: SynchronizationProperties
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(FlathubSynchronizer::class.java)
 
 	init {
-		if (!flathubSyncEnabled) {
+		if (!synchronizationProperties.flathub.enabled) {
 			logger.warn("Synchronization disabled for Flathub")
 		}
 	}
 
 	override fun synchronize(): Mono<Boolean> {
-		return if (flathubSyncEnabled) {
+		return if (synchronizationProperties.flathub.enabled) {
 			startSynchronization()
 		} else {
 			Mono.just(false)
@@ -50,7 +49,8 @@ class FlathubSynchronizer(
 			.flatMap { createSynchronizationEntry() }
 	}
 
-	fun createSynchronizationEntry() = Mono.create<Boolean> {
+	// TODO: Extract this method to the Synchronization service.
+	private fun createSynchronizationEntry() = Mono.create<Boolean> {
 		val sync = Synchronization(
 			date = Date(),
 			store = ApplicationStore.FLATHUB
@@ -59,7 +59,7 @@ class FlathubSynchronizer(
 		it.success(true)
 	}
 
-	fun convertFlathubApplicationToAppOutletApplication(
+	private fun convertFlathubApplicationToAppOutletApplication(
 	    flathubApplication: FlathubApplicationDetails
 	): AppOutletApplication {
 		return AppOutletApplication(
@@ -84,7 +84,7 @@ class FlathubSynchronizer(
 		)
 	}
 
-	fun extractTags(categories: List<FlathubCategory>): List<String> {
+	private fun extractTags(categories: List<FlathubCategory>): List<String> {
 		val result = mutableListOf<String>()
 		categories.forEach { category ->
 			result.add(category.name)
@@ -92,7 +92,7 @@ class FlathubSynchronizer(
 		return result
 	}
 
-	fun extractScreenshots(screenshots: List<FlathubScreenshot>): List<String> {
+	private fun extractScreenshots(screenshots: List<FlathubScreenshot>): List<String> {
 		val result = mutableListOf<String>()
 		screenshots.forEach { screenshot ->
 			result.add(screenshot.imgDesktopUrl)
@@ -100,7 +100,7 @@ class FlathubSynchronizer(
 		return result
 	}
 
-	fun addFlathubContentManagerDomain(uri: String): String? {
+	private fun addFlathubContentManagerDomain(uri: String): String? {
 		return if (isFlatpakUriValid(uri)) {
 			"$FLATHUB_CONTENT_MANAGER_DOMAIN$uri"
 		} else {
@@ -109,7 +109,7 @@ class FlathubSynchronizer(
 		}
 	}
 
-	fun isFlatpakUriValid(uri: String): Boolean {
+	private fun isFlatpakUriValid(uri: String): Boolean {
 		return uri.isNotBlank() &&
 			uri.startsWith("/")
 	}

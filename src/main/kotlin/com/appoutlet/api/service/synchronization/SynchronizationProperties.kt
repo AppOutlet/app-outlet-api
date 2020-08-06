@@ -6,6 +6,10 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConstructorBinding
 @ConfigurationProperties(prefix = "appoutlet.synchronization")
 class SynchronizationProperties(
-	val enabled: Boolean,
-	val cron: String
-)
+    val enabled: Boolean,
+    val flathub: FlathubSynchronizationProperties
+) {
+	class FlathubSynchronizationProperties(
+	    val enabled: Boolean
+	)
+}

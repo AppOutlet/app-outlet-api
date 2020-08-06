@@ -1,14 +1,11 @@
 package com.appoutlet.api.repository.snapstore
 
-import com.appoutlet.api.repository.appimagehub.AppImageHubRepository
-import com.appoutlet.api.repository.appimagehub.AppImageHubWebClient
 import com.appoutlet.api.util.clientResponseFactory
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.web.reactive.function.client.ExchangeFunction
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.kotlin.core.publisher.toMono

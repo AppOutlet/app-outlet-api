@@ -14,9 +14,9 @@ import reactor.kotlin.core.publisher.toMono
 
 @Service
 class SnapStoreSynchronizer(
-        private val snapStoreRepository: SnapStoreRepository,
-        private val appOutletApplicationRepository: AppOutletApplicationRepository,
-        @Value("#{environment['appoutlet.synchronization.snap-store.enable']}") private val syncEnabled: Boolean
+    private val snapStoreRepository: SnapStoreRepository,
+    private val appOutletApplicationRepository: AppOutletApplicationRepository,
+    @Value("#{environment['appoutlet.synchronization.snap-store.enable']}") private val syncEnabled: Boolean
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(SnapStoreSynchronizer::class.java)
 
