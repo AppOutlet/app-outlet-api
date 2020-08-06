@@ -1,4 +1,4 @@
-package com.appoutlet.api.service
+package com.appoutlet.api.service.synchronization
 
 import reactor.core.publisher.Mono
 

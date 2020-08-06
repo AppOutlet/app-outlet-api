@@ -1,4 +1,4 @@
-package com.appoutlet.api.service
+package com.appoutlet.api.service.synchronization
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -7,22 +7,22 @@ import org.springframework.stereotype.Service
 
 @Service
 class SynchronizationService(
-    private val flathubSynchronizer: FlathubSynchronizer,
-    private val appImageHubSynchronizer: AppImageHubSynchronizer,
-    private val snapStoreSynchronizer: SnapStoreSynchronizer,
-    @Value("#{environment['appoutlet.synchronization.enable']}") private val synchronizationEnabled: Boolean
+	private val flathubSynchronizer: FlathubSynchronizer,
+	private val appImageHubSynchronizer: AppImageHubSynchronizer,
+	private val snapStoreSynchronizer: SnapStoreSynchronizer,
+	private val synchronizationProperties: SynchronizationProperties
 ) {
 	private val logger = LoggerFactory.getLogger(SynchronizationService::class.java)
 
 	init {
-		if (!synchronizationEnabled) {
+		if (!synchronizationProperties.enabled) {
 			logger.warn("Synchronization is not enabled for this instance")
 		}
 	}
 
 	@Scheduled(cron = "#{environment['appoutlet.synchronization.cron']}")
 	fun synchronize() {
-		if (synchronizationEnabled) {
+		if (synchronizationProperties.enabled) {
 			startSynchronization()
 		}
 	}
