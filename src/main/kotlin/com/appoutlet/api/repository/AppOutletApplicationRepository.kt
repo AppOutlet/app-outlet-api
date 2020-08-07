@@ -1,6 +1,6 @@
 package com.appoutlet.api.repository
 
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
-import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 
-interface AppOutletApplicationRepository : MongoRepository<AppOutletApplication, String>
+interface AppOutletApplicationRepository : ReactiveMongoRepository<AppOutletApplication, String>

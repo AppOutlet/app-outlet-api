@@ -37,12 +37,12 @@ class AppImageHubSynchronizer(
 
 	private fun startSynchronization() = appImageHubRepository.getApps()
 		.map(this::convertAppImageApplicationToAppOutletApplication)
-		.map(this::saveApplication)
+		.flatMap(this::saveApplication)
 		.buffer()
 		.toMono()
 		.map { true }
 
-	private fun saveApplication(application: AppOutletApplication): AppOutletApplication {
+	private fun saveApplication(application: AppOutletApplication): Mono<AppOutletApplication> {
 		return appOutletApplicationRepository.save(application)
 	}
 

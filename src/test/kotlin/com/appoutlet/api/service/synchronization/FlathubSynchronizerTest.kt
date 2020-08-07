@@ -106,9 +106,9 @@ internal class FlathubSynchronizerTest {
 		every { mockFlathubRepository.getApplicationDetails(flatpakApp1) }.returns(Mono.just(applicationDetails))
 		every { mockFlathubRepository.getApplicationDetails(flatpakApp2) }.returns(Mono.just(applicationDetails2))
 		every { mockSynchronizationRepository.save<Synchronization>(any()) }.returns(
-			Synchronization(Date(), ApplicationStore.FLATHUB)
+			Mono.just(Synchronization(Date(), ApplicationStore.FLATHUB))
 		)
-		every { mockAppOutletApplicationRepository.save<AppOutletApplication>(any()) }.returns(appOutletApplication)
+		every { mockAppOutletApplicationRepository.save<AppOutletApplication>(any()) }.returns(Mono.just(appOutletApplication))
 
 		assertTrue(flathubSynchronizer.synchronize().block() == true)
 	}

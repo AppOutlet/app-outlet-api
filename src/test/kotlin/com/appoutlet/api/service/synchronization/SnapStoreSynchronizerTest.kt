@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import java.util.Date
 
 internal class SnapStoreSynchronizerTest {
@@ -60,7 +61,9 @@ internal class SnapStoreSynchronizerTest {
 		val appOutletAppliationMock = mockk<AppOutletApplication>()
 		every { synchronizationPropertiesMock.snapStore.enabled } returns true
 		every { snapStoreRepositoryMock.getApps() }.returns(Flux.fromIterable(apps))
-		every { appOutletApplicationRepositoryMock.save<AppOutletApplication>(any()) } returns appOutletAppliationMock
+		every { appOutletApplicationRepositoryMock.save<AppOutletApplication>(any()) }.returns(
+			Mono.just(appOutletAppliationMock)
+		)
 
 		assertTrue(snapStoreSynchronizer.synchronize().block() == true)
 	}
