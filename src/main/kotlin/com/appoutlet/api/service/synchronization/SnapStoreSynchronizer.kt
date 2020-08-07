@@ -35,12 +35,12 @@ class SnapStoreSynchronizer(
 
 	private fun startSynchronization() = snapStoreRepository.getApps()
 		.map(this::convertSnapStoreApplicationToAppOutletApplication)
-		.map(this::saveApplication)
+		.flatMap(this::saveApplication)
 		.buffer()
 		.map { true }
 		.toMono()
 
-	private fun saveApplication(appOutletApplication: AppOutletApplication): AppOutletApplication {
+	private fun saveApplication(appOutletApplication: AppOutletApplication): Mono<AppOutletApplication> {
 		return appOutletApplicationRepository.save(appOutletApplication)
 	}
 

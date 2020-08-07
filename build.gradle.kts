@@ -32,7 +32,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.1.0-M1")
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+	implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 	implementation("org.springdoc:springdoc-openapi-webflux-ui:1.4.3")
 	implementation("org.springdoc:springdoc-openapi-kotlin:1.4.3")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -61,7 +61,6 @@ tasks.test {
 
 tasks.jacocoTestReport {
 	dependsOn(tasks.test)
-	finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
 tasks.jacocoTestCoverageVerification {
@@ -79,6 +78,10 @@ tasks.jacocoTestCoverageVerification {
 			}
 		}
 	}
+}
+
+tasks.check {
+	dependsOn(tasks.jacocoTestCoverageVerification)
 }
 
 githook {

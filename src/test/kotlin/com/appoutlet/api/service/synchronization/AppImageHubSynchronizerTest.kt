@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 internal class AppImageHubSynchronizerTest {
 	private lateinit var appImageHubSynchronizer: AppImageHubSynchronizer
@@ -55,7 +56,9 @@ internal class AppImageHubSynchronizerTest {
 
 		every { synchronizationPropertiesMock.appImageHub.enabled } returns true
 		every { appImageHubRepositoryMock.getApps() }.returns(Flux.fromIterable(applications))
-		every { appOutletApplicationRepositoryMock.save<AppOutletApplication>(any()) } returns appOutletApplicationMock
+		every { appOutletApplicationRepositoryMock.save<AppOutletApplication>(any()) }.returns(
+			Mono.just(appOutletApplicationMock)
+		)
 
 		assertTrue(appImageHubSynchronizer.synchronize().block() == true)
 	}
