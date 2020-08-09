@@ -29,5 +29,6 @@ data class AppOutletApplication(
     val store: ApplicationStore,
     val packageType: ApplicationPackageType,
     val packageName: String? = null,
-    val confinement: String? = null
+    val confinement: String? = null,
+	val viewCount: Int? = null
 )
