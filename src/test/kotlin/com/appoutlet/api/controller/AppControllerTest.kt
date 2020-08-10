@@ -1,5 +1,6 @@
 package com.appoutlet.api.controller
 
+import com.appoutlet.api.exception.ApplicationNotFoundException
 import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
@@ -11,8 +12,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.test.web.reactive.server.WebTestClient
-import org.springframework.test.web.reactive.server.returnResult
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @WebFluxTest(controllers = [AppController::class])
 internal class AppControllerTest {
@@ -46,5 +47,41 @@ internal class AppControllerTest {
 			.returnResult().responseBody
 
 		assertEquals(apps, result)
+	}
+
+	@Test
+	fun `Should increment viewCount of a given app `() {
+		val app = AppOutletApplication(
+			id = "appId",
+			name = "Application name",
+			summary = "Application summary",
+			description = "Application description",
+			developer = "Application developer",
+			store = ApplicationStore.SNAP_STORE,
+			packageType = ApplicationPackageType.SNAP
+		)
+
+		every { appServiceMock.registerVisualization(any()) }.returns(Mono.just(app))
+
+		val result = webTestClient.post()
+			.uri("/apps/appId/view")
+			.exchange()
+			.expectStatus().isOk
+			.expectBody(AppOutletApplication::class.java)
+			.returnResult().responseBody
+
+		assertEquals(app, result)
+	}
+
+	@Test
+	fun `Should return 404 if app not exists `() {
+		every { appServiceMock.registerVisualization(any()) }.returns(
+			Mono.error(ApplicationNotFoundException("App not found"))
+		)
+
+		webTestClient.post()
+			.uri("/apps/appId/view")
+			.exchange()
+			.expectStatus().isNotFound
 	}
 }

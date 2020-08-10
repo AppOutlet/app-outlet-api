@@ -35,13 +35,17 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 	implementation("org.springdoc:springdoc-openapi-webflux-ui:1.4.3")
 	implementation("org.springdoc:springdoc-openapi-kotlin:1.4.3")
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+	testImplementation("io.projectreactor:reactor-test:3.3.6.RELEASE")
 	testImplementation("com.ninja-squad:springmockk:2.0.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 		exclude(module = "mockito-core")
 	}
+
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 }
 
 tasks.withType<Test> {
