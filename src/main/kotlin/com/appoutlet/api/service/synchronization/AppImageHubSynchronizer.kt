@@ -79,7 +79,7 @@ class AppImageHubSynchronizer(
 	private fun getDeveloper(appImageHubApplication: AppImageHubApplication): String {
 		return if (appImageHubApplication.authors != null && appImageHubApplication.authors.isNotEmpty()) {
 			appImageHubApplication.authors[0].name
-		}else {
+		} else {
 			"unknown"
 		}
 	}

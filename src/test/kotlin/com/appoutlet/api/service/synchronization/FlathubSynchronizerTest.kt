@@ -107,8 +107,6 @@ internal class FlathubSynchronizerTest {
 			FlathubApplication(flatpakAppId = applicationDetails.flatpakAppId)
 		)
 
-
-
 		every { synchronizationPropertiesMock.flathub.enabled }.returns(true)
 		every { flathubRepositoryMock.getApps() }.returns(Flux.fromIterable(applications))
 		every { flathubRepositoryMock.getApplicationDetails(applicationDetails.flatpakAppId) }.returns(Mono.just(applicationDetails))

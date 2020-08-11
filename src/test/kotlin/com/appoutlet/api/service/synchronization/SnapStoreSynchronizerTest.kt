@@ -8,7 +8,6 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -19,7 +18,7 @@ internal class SnapStoreSynchronizerTest {
 	private val appOutletApplicationRepositoryMock = mockk<AppOutletApplicationRepository>()
 	private val synchronizationPropertiesMock = mockk<SynchronizationProperties>()
 
-	fun getSnapStoreSynchronizer() = SnapStoreSynchronizer(
+	private fun getSnapStoreSynchronizer() = SnapStoreSynchronizer(
 		snapStoreRepositoryMock,
 		appOutletApplicationRepositoryMock,
 		synchronizationPropertiesMock
