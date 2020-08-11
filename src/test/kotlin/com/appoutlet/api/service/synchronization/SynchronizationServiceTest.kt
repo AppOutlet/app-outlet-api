@@ -1,5 +1,6 @@
 package com.appoutlet.api.service.synchronization
 
+import com.appoutlet.api.repository.SynchronizationRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -13,6 +14,7 @@ internal class SynchronizationServiceTest {
 	private val mockAppImageHubSynchronizer = mockk<AppImageHubSynchronizer>()
 	private val mockSnapStoreSynchronizer = mockk<SnapStoreSynchronizer>()
 	private val mockSynchronizationProperties = mockk<SynchronizationProperties>()
+	private val mockSynchronizationRepository = mockk<SynchronizationRepository>()
 
 	@BeforeEach
 	fun setup() {
@@ -21,7 +23,8 @@ internal class SynchronizationServiceTest {
 			mockFlathubSynchronizer,
 			mockAppImageHubSynchronizer,
 			mockSnapStoreSynchronizer,
-			mockSynchronizationProperties
+			mockSynchronizationProperties,
+			mockSynchronizationRepository
 		)
 	}
 
