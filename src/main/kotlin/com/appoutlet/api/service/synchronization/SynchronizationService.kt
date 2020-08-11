@@ -14,8 +14,7 @@ class SynchronizationService(
     private val flathubSynchronizer: FlathubSynchronizer,
     private val appImageHubSynchronizer: AppImageHubSynchronizer,
     private val snapStoreSynchronizer: SnapStoreSynchronizer,
-    private val synchronizationProperties: SynchronizationProperties,
-    private val synchronizationRepository: SynchronizationRepository
+    private val synchronizationProperties: SynchronizationProperties
 ) {
 	private val logger = LoggerFactory.getLogger(SynchronizationService::class.java)
 
@@ -34,23 +33,15 @@ class SynchronizationService(
 
 	private fun startSynchronization() {
 		flathubSynchronizer.synchronize()
-			.flatMap { createSynchronizationEntry(ApplicationStore.FLATHUB) }
 			.doOnError { logger.info("Error on Flathub synchronization", it) }
 			.subscribe { if (it) logger.info("Flathub synchronized successfully") }
 
 		appImageHubSynchronizer.synchronize()
-			.flatMap { createSynchronizationEntry(ApplicationStore.APP_IMAGE_HUB) }
 			.doOnError { logger.error("Error on AppImageHub synchronization", it) }
 			.subscribe { if (it) logger.info("AppImageHub synchronized successfully") }
 
 		snapStoreSynchronizer.synchronize()
-			.flatMap { createSynchronizationEntry(ApplicationStore.SNAP_STORE) }
 			.doOnError { logger.error("Error on SnapStore synchronization", it) }
 			.subscribe { if (it) logger.info("SnapStore synchronized successfully") }
-	}
-
-	private fun createSynchronizationEntry(store: ApplicationStore): Mono<Boolean> {
-		val sync = Synchronization(date = Date(), store = store)
-		return synchronizationRepository.save(sync).map { true }
 	}
 }
