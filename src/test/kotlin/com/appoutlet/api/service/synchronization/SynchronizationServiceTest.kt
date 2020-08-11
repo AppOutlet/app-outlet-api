@@ -1,12 +1,12 @@
 package com.appoutlet.api.service.synchronization
 
-import com.appoutlet.api.repository.SynchronizationRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 internal class SynchronizationServiceTest {
 	private lateinit var synchronizationService: SynchronizationService
@@ -14,7 +14,6 @@ internal class SynchronizationServiceTest {
 	private val mockAppImageHubSynchronizer = mockk<AppImageHubSynchronizer>()
 	private val mockSnapStoreSynchronizer = mockk<SnapStoreSynchronizer>()
 	private val mockSynchronizationProperties = mockk<SynchronizationProperties>()
-	private val mockSynchronizationRepository = mockk<SynchronizationRepository>()
 
 	@BeforeEach
 	fun setup() {
@@ -23,8 +22,7 @@ internal class SynchronizationServiceTest {
 			mockFlathubSynchronizer,
 			mockAppImageHubSynchronizer,
 			mockSnapStoreSynchronizer,
-			mockSynchronizationProperties,
-			mockSynchronizationRepository
+			mockSynchronizationProperties
 		)
 	}
 
@@ -57,11 +55,25 @@ internal class SynchronizationServiceTest {
 	}
 
 	@Test
-	fun `Synchronize with synchronizers returning false `() {
+	fun `Synchronize with synchronizer returning error `() {
 		every { mockSynchronizationProperties.enabled }.returns(true)
 		every { mockFlathubSynchronizer.synchronize() }.returns(Mono.error(RuntimeException()))
 		every { mockAppImageHubSynchronizer.synchronize() }.returns(Mono.error(RuntimeException()))
 		every { mockSnapStoreSynchronizer.synchronize() }.returns(Mono.error(RuntimeException()))
+
+		synchronizationService.synchronize()
+
+		verify(exactly = 1) { mockFlathubSynchronizer.synchronize() }
+		verify(exactly = 1) { mockAppImageHubSynchronizer.synchronize() }
+		verify(exactly = 1) { mockSnapStoreSynchronizer.synchronize() }
+	}
+
+	@Test
+	fun `Synchronize with Synchronizer returning false `() {
+		every { mockSynchronizationProperties.enabled }.returns(true)
+		every { mockFlathubSynchronizer.synchronize() }.returns(false.toMono())
+		every { mockAppImageHubSynchronizer.synchronize() }.returns(false.toMono())
+		every { mockSnapStoreSynchronizer.synchronize() }.returns(false.toMono())
 
 		synchronizationService.synchronize()
 
