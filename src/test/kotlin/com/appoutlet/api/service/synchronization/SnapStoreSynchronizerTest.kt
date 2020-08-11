@@ -15,25 +15,20 @@ import reactor.core.publisher.Mono
 import java.util.Date
 
 internal class SnapStoreSynchronizerTest {
-	private lateinit var snapStoreSynchronizer: SnapStoreSynchronizer
 	private val snapStoreRepositoryMock = mockk<SnapStoreRepository>()
 	private val appOutletApplicationRepositoryMock = mockk<AppOutletApplicationRepository>()
 	private val synchronizationPropertiesMock = mockk<SynchronizationProperties>()
 
-	@BeforeEach
-	fun setup() {
-		every { synchronizationPropertiesMock.snapStore.enabled } returns false
-		snapStoreSynchronizer = SnapStoreSynchronizer(
-			snapStoreRepositoryMock,
-			appOutletApplicationRepositoryMock,
-			synchronizationPropertiesMock
-		)
-	}
+	fun getSnapStoreSynchronizer() = SnapStoreSynchronizer(
+		snapStoreRepositoryMock,
+		appOutletApplicationRepositoryMock,
+		synchronizationPropertiesMock
+	)
 
     @Test
     fun `Should not synchronize if property is false `() {
 		every { synchronizationPropertiesMock.snapStore.enabled } returns false
-		assertFalse(snapStoreSynchronizer.synchronize().block() == true)
+		assertFalse(getSnapStoreSynchronizer().synchronize().block() == true)
     }
 
 	@Test
@@ -58,13 +53,13 @@ internal class SnapStoreSynchronizerTest {
 				confinement = "strict"
 			)
 		)
-		val appOutletAppliationMock = mockk<AppOutletApplication>()
+		val appOutletApplicationMock = mockk<AppOutletApplication>()
 		every { synchronizationPropertiesMock.snapStore.enabled } returns true
 		every { snapStoreRepositoryMock.getApps() }.returns(Flux.fromIterable(apps))
 		every { appOutletApplicationRepositoryMock.save<AppOutletApplication>(any()) }.returns(
-			Mono.just(appOutletAppliationMock)
+			Mono.just(appOutletApplicationMock)
 		)
 
-		assertTrue(snapStoreSynchronizer.synchronize().block() == true)
+		assertTrue(getSnapStoreSynchronizer().synchronize().block() == true)
 	}
 }
