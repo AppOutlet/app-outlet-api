@@ -77,7 +77,11 @@ class AppImageHubSynchronizer(
 	}
 
 	private fun getDeveloper(appImageHubApplication: AppImageHubApplication): String {
-		return appImageHubApplication.authors?.get(0)?.name ?: "unknown"
+		return if (appImageHubApplication.authors != null && appImageHubApplication.authors.isNotEmpty()) {
+			appImageHubApplication.authors[0].name
+		}else {
+			"unknown"
+		}
 	}
 
 	private fun getHomepage(appImageHubApplication: AppImageHubApplication): String? {

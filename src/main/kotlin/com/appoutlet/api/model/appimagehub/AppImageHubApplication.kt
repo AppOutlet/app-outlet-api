@@ -1,12 +1,12 @@
 package com.appoutlet.api.model.appimagehub
 
 data class AppImageHubApplication(
-    val name: String,
-    val description: String?,
-    val categories: List<String>?,
-    val authors: List<AppImageHubAuthor>?,
-    val license: String?,
-    val links: List<AppImageHubLink>?,
-    val icons: List<String>?,
-    val screenshots: List<String>?
+	val name: String,
+	val description: String? = null,
+	val categories: List<String>? = null,
+	val authors: List<AppImageHubAuthor>? = null,
+	val license: String? = null,
+	val links: List<AppImageHubLink>? = null,
+	val icons: List<String>? = null,
+	val screenshots: List<String>? = null
 )
