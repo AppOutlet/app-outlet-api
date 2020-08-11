@@ -2,25 +2,21 @@ package com.appoutlet.api.service.synchronization
 
 import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
-import com.appoutlet.api.model.Synchronization
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
 import com.appoutlet.api.model.flathub.FlathubApplicationDetails
 import com.appoutlet.api.model.flathub.FlathubCategory
 import com.appoutlet.api.model.flathub.FlathubScreenshot
 import com.appoutlet.api.repository.AppOutletApplicationRepository
-import com.appoutlet.api.repository.SynchronizationRepository
 import com.appoutlet.api.repository.flathub.FlathubRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
-import java.util.Date
 
 @Service
 class FlathubSynchronizer(
     private val flathubRepository: FlathubRepository,
     private val appOutletApplicationRepository: AppOutletApplicationRepository,
-    private val synchronizationRepository: SynchronizationRepository,
     private val synchronizationProperties: SynchronizationProperties
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(FlathubSynchronizer::class.java)
@@ -46,17 +42,7 @@ class FlathubSynchronizer(
 			.map { appOutletApplicationRepository.save(it) }
 			.buffer()
 			.toMono()
-			.flatMap { createSynchronizationEntry() }
-	}
-
-	// TODO: Extract this method to the Synchronization service.
-	private fun createSynchronizationEntry() = Mono.create<Boolean> {
-		val sync = Synchronization(
-			date = Date(),
-			store = ApplicationStore.FLATHUB
-		)
-		synchronizationRepository.save(sync)
-		it.success(true)
+			.map { true }
 	}
 
 	private fun convertFlathubApplicationToAppOutletApplication(

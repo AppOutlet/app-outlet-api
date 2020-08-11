@@ -2,14 +2,12 @@ package com.appoutlet.api.service.synchronization
 
 import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
-import com.appoutlet.api.model.Synchronization
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
 import com.appoutlet.api.model.flathub.FlathubApplication
 import com.appoutlet.api.model.flathub.FlathubApplicationDetails
 import com.appoutlet.api.model.flathub.FlathubCategory
 import com.appoutlet.api.model.flathub.FlathubScreenshot
 import com.appoutlet.api.repository.AppOutletApplicationRepository
-import com.appoutlet.api.repository.SynchronizationRepository
 import com.appoutlet.api.repository.flathub.FlathubRepository
 import io.mockk.every
 import io.mockk.mockk
@@ -27,7 +25,6 @@ internal class FlathubSynchronizerTest {
 
 	private val mockFlathubRepository = mockk<FlathubRepository>()
 	private val mockAppOutletApplicationRepository = mockk<AppOutletApplicationRepository>()
-	private val mockSynchronizationRepository = mockk<SynchronizationRepository>()
 	private val mockSynchronizationProperties = mockk<SynchronizationProperties>()
 	private lateinit var flathubSynchronizer: FlathubSynchronizer
 
@@ -37,7 +34,6 @@ internal class FlathubSynchronizerTest {
 		flathubSynchronizer = FlathubSynchronizer(
 			mockFlathubRepository,
 			mockAppOutletApplicationRepository,
-			mockSynchronizationRepository,
 			mockSynchronizationProperties
 		)
 	}
@@ -105,9 +101,6 @@ internal class FlathubSynchronizerTest {
 		every { mockFlathubRepository.getApps() }.returns(Flux.fromIterable(applications))
 		every { mockFlathubRepository.getApplicationDetails(flatpakApp1) }.returns(Mono.just(applicationDetails))
 		every { mockFlathubRepository.getApplicationDetails(flatpakApp2) }.returns(Mono.just(applicationDetails2))
-		every { mockSynchronizationRepository.save<Synchronization>(any()) }.returns(
-			Mono.just(Synchronization(Date(), ApplicationStore.FLATHUB))
-		)
 		every { mockAppOutletApplicationRepository.save<AppOutletApplication>(any()) }.returns(Mono.just(appOutletApplication))
 
 		assertTrue(flathubSynchronizer.synchronize().block() == true)
