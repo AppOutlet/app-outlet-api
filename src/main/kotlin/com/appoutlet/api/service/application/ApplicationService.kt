@@ -3,7 +3,9 @@ package com.appoutlet.api.service.application
 import com.appoutlet.api.exception.ApplicationNotFoundException
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
 import com.appoutlet.api.repository.appoutlet.ApplicationRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.switchIfEmpty
 
@@ -26,5 +28,12 @@ class ApplicationService(
 
 	fun save(appOutletApplication: AppOutletApplication) = applicationRepository.save(appOutletApplication)
 
-	fun search(searchTerm: String) = applicationRepository.searchNameOrDescription(searchTerm)
+	fun search(searchTerm: String, page: Int?, size: Int?): Flux<AppOutletApplication> {
+		val pageable = PageRequest.of(page ?: 0, size ?: DEFAULT_PAGE_SIZE)
+		return applicationRepository.searchNameOrDescription(searchTerm, pageable)
+	}
+
+	companion object {
+		private const val DEFAULT_PAGE_SIZE = 15
+	}
 }
