@@ -26,5 +26,5 @@ class ApplicationService(
 
 	fun save(appOutletApplication: AppOutletApplication) = applicationRepository.save(appOutletApplication)
 
-	fun search(searchTerm: String) = "applicationRepository.searchNameOrDescription(searchTerm)"
+	fun search(searchTerm: String) = applicationRepository.searchNameOrDescription(searchTerm)
 }
