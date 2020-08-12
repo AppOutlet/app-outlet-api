@@ -4,7 +4,7 @@ import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
 import com.appoutlet.api.model.snapstore.SnapStoreApplication
-import com.appoutlet.api.repository.AppOutletApplicationRepository
+import com.appoutlet.api.repository.appoutlet.ApplicationRepository
 import com.appoutlet.api.repository.snapstore.SnapStoreRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -14,7 +14,7 @@ import reactor.kotlin.core.publisher.toMono
 @Service
 class SnapStoreSynchronizer(
     private val snapStoreRepository: SnapStoreRepository,
-    private val appOutletApplicationRepository: AppOutletApplicationRepository,
+    private val applicationRepository: ApplicationRepository,
     private val synchronizationProperties: SynchronizationProperties
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(SnapStoreSynchronizer::class.java)
@@ -41,7 +41,7 @@ class SnapStoreSynchronizer(
 		.toMono()
 
 	private fun saveApplication(appOutletApplication: AppOutletApplication): Mono<AppOutletApplication> {
-		return appOutletApplicationRepository.save(appOutletApplication)
+		return applicationRepository.save(appOutletApplication)
 	}
 
 	private fun convertSnapStoreApplicationToAppOutletApplication(

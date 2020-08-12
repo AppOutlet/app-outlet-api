@@ -2,7 +2,7 @@ package com.appoutlet.api.service.synchronization
 
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
 import com.appoutlet.api.model.snapstore.SnapStoreApplication
-import com.appoutlet.api.repository.AppOutletApplicationRepository
+import com.appoutlet.api.repository.appoutlet.ApplicationRepository
 import com.appoutlet.api.repository.snapstore.SnapStoreRepository
 import io.mockk.every
 import io.mockk.mockk
@@ -15,7 +15,7 @@ import java.util.Date
 
 internal class SnapStoreSynchronizerTest {
 	private val snapStoreRepositoryMock = mockk<SnapStoreRepository>()
-	private val appOutletApplicationRepositoryMock = mockk<AppOutletApplicationRepository>()
+	private val appOutletApplicationRepositoryMock = mockk<ApplicationRepository>()
 	private val synchronizationPropertiesMock = mockk<SynchronizationProperties>()
 
 	private fun getSnapStoreSynchronizer() = SnapStoreSynchronizer(

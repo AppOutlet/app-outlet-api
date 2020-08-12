@@ -4,8 +4,8 @@ import com.appoutlet.api.model.appimagehub.AppImageHubApplication
 import com.appoutlet.api.model.appimagehub.AppImageHubAuthor
 import com.appoutlet.api.model.appimagehub.AppImageHubLink
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
-import com.appoutlet.api.repository.AppOutletApplicationRepository
 import com.appoutlet.api.repository.appimagehub.AppImageHubRepository
+import com.appoutlet.api.repository.appoutlet.ApplicationRepository
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -18,7 +18,7 @@ import reactor.kotlin.core.publisher.toMono
 
 internal class AppImageHubSynchronizerTest {
 	private val appImageHubRepositoryMock = mockk<AppImageHubRepository>() // TODO: rename all mocks to this pattern
-	private val appOutletApplicationRepositoryMock = mockk<AppOutletApplicationRepository>()
+	private val appOutletApplicationRepositoryMock = mockk<ApplicationRepository>()
 	private val synchronizationPropertiesMock = mockk<SynchronizationProperties>()
 
 	private fun getAppImageHubSynchronizer(): AppImageHubSynchronizer {

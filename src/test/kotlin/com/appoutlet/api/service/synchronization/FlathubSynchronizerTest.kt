@@ -5,7 +5,7 @@ import com.appoutlet.api.model.flathub.FlathubApplication
 import com.appoutlet.api.model.flathub.FlathubApplicationDetails
 import com.appoutlet.api.model.flathub.FlathubCategory
 import com.appoutlet.api.model.flathub.FlathubScreenshot
-import com.appoutlet.api.repository.AppOutletApplicationRepository
+import com.appoutlet.api.repository.appoutlet.ApplicationRepository
 import com.appoutlet.api.repository.flathub.FlathubRepository
 import io.mockk.every
 import io.mockk.mockk
@@ -24,7 +24,7 @@ import java.util.Date
 internal class FlathubSynchronizerTest {
 
 	private val flathubRepositoryMock = mockk<FlathubRepository>()
-	private val appOutletApplicationRepositoryMock = mockk<AppOutletApplicationRepository>()
+	private val appOutletApplicationRepositoryMock = mockk<ApplicationRepository>()
 	private val synchronizationPropertiesMock = mockk<SynchronizationProperties>()
 
 	private fun getFlathubSynchronizer() = FlathubSynchronizer(

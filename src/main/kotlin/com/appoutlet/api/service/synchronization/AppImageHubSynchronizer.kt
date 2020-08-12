@@ -5,8 +5,8 @@ import com.appoutlet.api.model.ApplicationStore
 import com.appoutlet.api.model.appimagehub.AppImageHubApplication
 import com.appoutlet.api.model.appimagehub.AppImageHubLink
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
-import com.appoutlet.api.repository.AppOutletApplicationRepository
 import com.appoutlet.api.repository.appimagehub.AppImageHubRepository
+import com.appoutlet.api.repository.appoutlet.ApplicationRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
@@ -16,7 +16,7 @@ import java.util.Date
 @Service
 class AppImageHubSynchronizer(
     private val appImageHubRepository: AppImageHubRepository,
-    private val appOutletApplicationRepository: AppOutletApplicationRepository,
+    private val applicationRepository: ApplicationRepository,
     private val synchronizationProperties: SynchronizationProperties
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(AppImageHubSynchronizer::class.java)
@@ -43,7 +43,7 @@ class AppImageHubSynchronizer(
 		.map { true }
 
 	private fun saveApplication(application: AppOutletApplication): Mono<AppOutletApplication> {
-		return appOutletApplicationRepository.save(application)
+		return applicationRepository.save(application)
 	}
 
 	private fun convertAppImageApplicationToAppOutletApplication(
