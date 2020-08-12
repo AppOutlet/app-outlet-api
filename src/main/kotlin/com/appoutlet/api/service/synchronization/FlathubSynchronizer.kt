@@ -6,7 +6,7 @@ import com.appoutlet.api.model.appoutlet.AppOutletApplication
 import com.appoutlet.api.model.flathub.FlathubApplicationDetails
 import com.appoutlet.api.model.flathub.FlathubCategory
 import com.appoutlet.api.model.flathub.FlathubScreenshot
-import com.appoutlet.api.repository.AppOutletApplicationRepository
+import com.appoutlet.api.repository.appoutlet.ApplicationRepository
 import com.appoutlet.api.repository.flathub.FlathubRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -16,7 +16,7 @@ import reactor.kotlin.core.publisher.toMono
 @Service
 class FlathubSynchronizer(
     private val flathubRepository: FlathubRepository,
-    private val appOutletApplicationRepository: AppOutletApplicationRepository,
+    private val applicationRepository: ApplicationRepository,
     private val synchronizationProperties: SynchronizationProperties
 ) : Synchronizer {
 	private val logger = LoggerFactory.getLogger(FlathubSynchronizer::class.java)
@@ -39,7 +39,7 @@ class FlathubSynchronizer(
 		return flathubRepository.getApps()
 			.flatMap { flathubRepository.getApplicationDetails(it.flatpakAppId) }
 			.map(this::convertFlathubApplicationToAppOutletApplication)
-			.map { appOutletApplicationRepository.save(it) }
+			.map { applicationRepository.save(it) }
 			.buffer()
 			.toMono()
 			.map { true }

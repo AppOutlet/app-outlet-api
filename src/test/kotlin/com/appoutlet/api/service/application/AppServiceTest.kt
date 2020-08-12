@@ -4,7 +4,7 @@ import com.appoutlet.api.exception.ApplicationNotFoundException
 import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
-import com.appoutlet.api.repository.AppOutletApplicationRepository
+import com.appoutlet.api.repository.appoutlet.ApplicationRepository
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -16,12 +16,12 @@ import reactor.kotlin.core.publisher.toMono
 import reactor.kotlin.test.test
 
 internal class AppServiceTest {
-	private lateinit var appService: AppService
-	private val appOutletApplicationRepositoryMock = mockk<AppOutletApplicationRepository>()
+	private lateinit var applicationService: ApplicationService
+	private val appOutletApplicationRepositoryMock = mockk<ApplicationRepository>()
 
 	@BeforeEach
 	fun setup() {
-		appService = AppService(appOutletApplicationRepositoryMock)
+		applicationService = ApplicationService(appOutletApplicationRepositoryMock)
 	}
 
 	@Test
@@ -40,7 +40,7 @@ internal class AppServiceTest {
 
 		every { appOutletApplicationRepositoryMock.findAll() }.returns(Flux.fromIterable(apps))
 
-		assertEquals(apps, appService.findAll().buffer().blockFirst())
+		assertEquals(apps, applicationService.findAll().buffer().blockFirst())
 	}
 
 	@Test
@@ -84,9 +84,9 @@ internal class AppServiceTest {
 			return@answers (it.invocation.args[0] as AppOutletApplication).toMono()
 		}
 
-		val savedApp1 = appService.registerVisualization("app1").block()
-		val savedApp2 = appService.registerVisualization("app2").block()
-		val savedApp3 = appService.registerVisualization("app3").block()
+		val savedApp1 = applicationService.registerVisualization("app1").block()
+		val savedApp2 = applicationService.registerVisualization("app2").block()
+		val savedApp3 = applicationService.registerVisualization("app3").block()
 
 		assertEquals(1, savedApp1?.viewCount)
 		assertEquals(1, savedApp2?.viewCount)
@@ -97,7 +97,7 @@ internal class AppServiceTest {
 	fun `Register app view should return error if application not exists `() {
 		every { appOutletApplicationRepositoryMock.findById(any<String>()) }.returns(Mono.empty())
 
-		appService.registerVisualization("")
+		applicationService.registerVisualization("")
 			.test()
 			.expectError(ApplicationNotFoundException::class.java)
 			.verify()

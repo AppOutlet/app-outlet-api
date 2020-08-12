@@ -4,7 +4,7 @@ import com.appoutlet.api.exception.ApplicationNotFoundException
 import com.appoutlet.api.model.ApplicationPackageType
 import com.appoutlet.api.model.ApplicationStore
 import com.appoutlet.api.model.appoutlet.AppOutletApplication
-import com.appoutlet.api.service.application.AppService
+import com.appoutlet.api.service.application.ApplicationService
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,13 +15,13 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-@WebFluxTest(controllers = [AppController::class])
-internal class AppControllerTest {
+@WebFluxTest(controllers = [ApplicationController::class])
+internal class ApplicationControllerTest {
 	@Autowired
 	private lateinit var webTestClient: WebTestClient
 
 	@MockkBean
-	private lateinit var appServiceMock: AppService
+	private lateinit var applicationServiceMock: ApplicationService
 
 	@Test
 	fun `Should get all apps `() {
@@ -37,7 +37,7 @@ internal class AppControllerTest {
 			)
 		)
 
-		every { appServiceMock.findAll() }.returns(Flux.fromIterable(apps))
+		every { applicationServiceMock.findAll() }.returns(Flux.fromIterable(apps))
 
 		val result = webTestClient.get()
 			.uri("/apps")
@@ -61,7 +61,7 @@ internal class AppControllerTest {
 			packageType = ApplicationPackageType.SNAP
 		)
 
-		every { appServiceMock.registerVisualization(any()) }.returns(Mono.just(app))
+		every { applicationServiceMock.registerVisualization(any()) }.returns(Mono.just(app))
 
 		val result = webTestClient.post()
 			.uri("/apps/appId/view")
@@ -75,7 +75,7 @@ internal class AppControllerTest {
 
 	@Test
 	fun `Should return 404 if app not exists `() {
-		every { appServiceMock.registerVisualization(any()) }.returns(
+		every { applicationServiceMock.registerVisualization(any()) }.returns(
 			Mono.error(ApplicationNotFoundException("App not found"))
 		)
 
