@@ -34,6 +34,6 @@ class ApplicationService(
 	}
 
 	companion object {
-		private const val DEFAULT_PAGE_SIZE = 15
+		const val DEFAULT_PAGE_SIZE = 15
 	}
 }
