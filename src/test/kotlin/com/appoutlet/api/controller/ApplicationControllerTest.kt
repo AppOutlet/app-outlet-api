@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.test.web.reactive.server.returnResult
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
@@ -83,5 +84,33 @@ internal class ApplicationControllerTest {
 			.uri("/apps/appId/view")
 			.exchange()
 			.expectStatus().isNotFound
+	}
+
+	@Test
+	fun `Should search by term `() {
+		val apps = listOf(AppOutletApplication(
+			id = "Application id",
+			name = "Application name",
+			summary = "Application summary",
+			description = "Application description",
+			developer = "Application developer",
+			store = ApplicationStore.SNAP_STORE,
+			packageType = ApplicationPackageType.SNAP
+		))
+
+		every { applicationServiceMock.search(any(), any(), any()) }.returns(Flux.fromIterable(apps))
+
+		val result = webTestClient.get()
+			.uri { uriBuilder ->
+				uriBuilder.path("/apps/search")
+					.queryParam("searchTerm", "searchTerm3")
+					.build()
+			}
+			.exchange()
+			.expectStatus().isOk
+			.expectBodyList(AppOutletApplication::class.java)
+			.returnResult().responseBody
+
+		assertEquals(apps, result)
 	}
 }

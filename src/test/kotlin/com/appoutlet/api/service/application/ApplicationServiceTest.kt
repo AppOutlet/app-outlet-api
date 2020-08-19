@@ -7,15 +7,18 @@ import com.appoutlet.api.model.appoutlet.AppOutletApplication
 import com.appoutlet.api.repository.appoutlet.ApplicationRepository
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.slot
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.data.domain.Pageable
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toFlux
 import reactor.kotlin.core.publisher.toMono
 import reactor.kotlin.test.test
 
-internal class AppServiceTest {
+internal class ApplicationServiceTest {
 	private lateinit var applicationService: ApplicationService
 	private val appOutletApplicationRepositoryMock = mockk<ApplicationRepository>()
 
@@ -25,7 +28,7 @@ internal class AppServiceTest {
 	}
 
 	@Test
-	fun findAll() {
+	fun `find all apps `() {
 		val apps = listOf(
 			AppOutletApplication(
 				id = "Application id",
@@ -101,5 +104,39 @@ internal class AppServiceTest {
 			.test()
 			.expectError(ApplicationNotFoundException::class.java)
 			.verify()
+	}
+
+	@Test
+	fun `Should parse the searchParameters to Application Repository `() {
+		val apps = listOf(
+			AppOutletApplication(
+				id = "Application id",
+				name = "Application name",
+				summary = "Application summary",
+				description = "Application description",
+				developer = "Application developer",
+				store = ApplicationStore.SNAP_STORE,
+				packageType = ApplicationPackageType.SNAP
+			)
+		)
+
+		val searchTermSlot = slot<String>()
+		val pageableSlot = slot<Pageable>()
+		every {
+			appOutletApplicationRepositoryMock.searchNameOrDescription(
+				capture(searchTermSlot),
+				capture(pageableSlot)
+			)
+		}.returns(apps.toFlux())
+
+		applicationService.search("term1", 32, 34)
+		assertEquals("term1", searchTermSlot.captured)
+		assertEquals(32, pageableSlot.captured.pageNumber)
+		assertEquals(34, pageableSlot.captured.pageSize)
+
+		applicationService.search("term", null, null)
+		assertEquals("term", searchTermSlot.captured)
+		assertEquals(0, pageableSlot.captured.pageNumber)
+		assertEquals(ApplicationService.DEFAULT_PAGE_SIZE, pageableSlot.captured.pageSize)
 	}
 }
