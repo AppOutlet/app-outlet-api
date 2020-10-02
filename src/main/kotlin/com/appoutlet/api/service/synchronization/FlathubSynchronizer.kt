@@ -70,23 +70,35 @@ class FlathubSynchronizer(
 		)
 	}
 
-	private fun extractTags(categories: List<FlathubCategory>): List<String> {
+	private fun extractTags(categories: List<FlathubCategory>?): List<String> {
+		if (categories == null) {
+			return emptyList()
+		}
+
 		val result = mutableListOf<String>()
+
 		categories.forEach { category ->
 			result.add(category.name)
 		}
+
 		return result
 	}
 
-	private fun extractScreenshots(screenshots: List<FlathubScreenshot>): List<String> {
-		val result = mutableListOf<String>()
-		screenshots.forEach { screenshot ->
-			result.add(screenshot.imgDesktopUrl)
+	private fun extractScreenshots(screenshots: List<FlathubScreenshot>?): List<String> {
+		if (screenshots == null) {
+			return emptyList()
 		}
+
+		val result = mutableListOf<String>()
+
+		screenshots.forEach { screenshot ->
+			screenshot.imgDesktopUrl?.let(result::add)
+		}
+
 		return result
 	}
 
-	private fun addFlathubContentManagerDomain(uri: String): String? {
+	private fun addFlathubContentManagerDomain(uri: String?): String? {
 		return if (isFlatpakUriValid(uri)) {
 			"$FLATHUB_CONTENT_MANAGER_DOMAIN$uri"
 		} else {
@@ -95,8 +107,8 @@ class FlathubSynchronizer(
 		}
 	}
 
-	private fun isFlatpakUriValid(uri: String): Boolean {
-		return uri.isNotBlank() &&
+	private fun isFlatpakUriValid(uri: String?): Boolean {
+		return (!uri.isNullOrBlank()) &&
 			uri.startsWith("/")
 	}
 
