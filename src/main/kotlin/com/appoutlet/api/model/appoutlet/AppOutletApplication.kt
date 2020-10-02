@@ -13,7 +13,7 @@ data class AppOutletApplication(
     val name: String,
     val summary: String? = null,
     val description: String? = null,
-    val developer: String,
+    val developer: String?,
     val license: String? = null,
     val homepage: String? = null,
     val bugtrackerUrl: String? = null,
