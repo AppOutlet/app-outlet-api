@@ -7,6 +7,12 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import reactor.core.publisher.Flux
 
 interface ApplicationRepository : ReactiveMongoRepository<AppOutletApplication, String> {
-	@Query("{ \$or : [{ name: { \$regex: '?0', \$options: 'i' }}, { summary: { \$regex: '?0', \$options: 'i' }}, { description: { \$regex: '?0', \$options: 'i' }}] }")
+	@Query(
+		"""{ ${'$'}or : [
+			{ name: { ${'$'}regex: '?0', ${'$'}options: 'i' }},
+			{ summary: { ${'$'}regex: '?0', ${'$'}options: 'i' }},
+			{ description: { ${'$'}regex: '?0', ${'$'}options: 'i' }}
+		]}"""
+	)
 	fun searchNameOrDescription(searchTerm: String, pageable: Pageable): Flux<AppOutletApplication>
 }

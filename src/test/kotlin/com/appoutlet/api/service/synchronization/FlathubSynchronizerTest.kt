@@ -109,7 +109,8 @@ internal class FlathubSynchronizerTest {
 
 		every { synchronizationPropertiesMock.flathub.enabled }.returns(true)
 		every { flathubRepositoryMock.getApps() }.returns(Flux.fromIterable(applications))
-		every { flathubRepositoryMock.getApplicationDetails(applicationDetails.flatpakAppId) }.returns(Mono.just(applicationDetails))
+		every { flathubRepositoryMock.getApplicationDetails(applicationDetails.flatpakAppId) }
+			.returns(Mono.just(applicationDetails))
 		every { appOutletApplicationRepositoryMock.save<AppOutletApplication>(any()) }.answers {
 			val appOutletApp = it.invocation.args[0] as AppOutletApplication
 
